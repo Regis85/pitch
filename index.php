@@ -32,7 +32,7 @@ if (isset($_GET['saisie']) && $_GET['saisie'] != "")
         $_SESSION['mdp'] = True;
         if (isset($_POST['mdp']))
         {
-        // si un mot de passe a été envoyé
+            // si un mot de passe a été envoyé
             // Un utilisateur essaie de se connecter
             if ($_SESSION['connecte']) {
                 // le mot de passe est correct, on peut modifier la page
@@ -86,6 +86,9 @@ elseif (isset($_GET['pitch']) && $_GET['pitch'] != "")
 }
 else
 {
+    // pour l'instant rien, ensuite Retour à la page de Pitchgolf/parcours
+    // header('Location: https://pitchgolf.fr/les-parcours/');
     echo "Vous devez indiquez un numéro de golf";
+    die();
 }
 

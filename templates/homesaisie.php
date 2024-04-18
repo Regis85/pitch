@@ -46,7 +46,6 @@
             </p>
             <p>
                 <a href="photos/<?= $_SESSION['club']['image'] ?>" target="_blank" >
-                <!-- <img src="photos/petite_<?= $_SESSION['club']['image']; ?>" -->
                 <img class="photoClub" src="photos/<?= $_SESSION['club']['image']; ?>"
 
                         alt="<?php echo $_SESSION['club']['nom'] ?>" title="Afficher l'image" />
