@@ -9,8 +9,7 @@ Class ImportImage
 {
     public function execute(): bool
     {
-        // echo "Début de la gestion de l'image";
-        // print_r($_FILES);
+        // Enregistrement de la photo
 
         $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png");
         $filename = $_FILES["photo"]["name"];
@@ -51,7 +50,9 @@ Class ImportImage
 
     protected function sauve_image()
     {
+        // Enregistrement du nom de photo
         $mime = $_FILES["photo"]["type"];
+        // Construction du nom du fichier
         switch ($mime) {
             case 'image/jpeg':
                 $image = $_SESSION['id_pitch']. ".jpg";
@@ -60,11 +61,10 @@ Class ImportImage
                 $image = $_SESSION['id_pitch']. ".png";
                 break;
             default:
-                // throw new Exception('Unknown image type.');
                 die("Erreur : " . $mime . " type non reconnu.");
         }
 
-
+        // Enregistrement du nom de fichier dans la base
         $database = new DatabaseConnection();
         $database->saveNomImage($image);
 
@@ -74,6 +74,8 @@ Class ImportImage
 
     protected function redim_image()
     {
+        // redimentionne une image largeur maxi 500px ou hauteur maxi 435px
+        // pas utilisé pour l'instant
         $imagename = $_FILES["photo"]["name"];
         $source = $_FILES["photo"]["tmp_name"];
 
@@ -83,8 +85,8 @@ Class ImportImage
         $imagepath =  $repertoire_depart . $imagename;
 
         $imagecible = $repertoire_cible . $_SESSION['id_pitch']; // Préparation nouveau nom
-        $save = $repertoire_cible . "petite_" . $_SESSION['id_pitch']; // Préparation prtite photo
-        //print_r($info);
+        $save = $repertoire_cible . "petite_" . $_SESSION['id_pitch']; // Préparation petite photo
+
         $mime = $_FILES["photo"]["type"];
 
         switch ($mime) {
@@ -101,7 +103,6 @@ Class ImportImage
                 $imagecible = $imagecible . ".png";
                 break;
             default:
-                // throw new Exception('Unknown image type.');
                 die("Erreur : Format d'image non reconnu.");
         }
 
@@ -117,38 +118,18 @@ Class ImportImage
             $diff = $height / $modheight;
             $modwidth = $width / $diff;
         }
+        // On crée une image vide (noire)
         $tn = imagecreatetruecolor($modwidth, $modheight);
+        // devrait mettre un fond transparent aux png, pas sûr que ça fonctionne
         imagesavealpha($tn, true);
 
         $image = $image_create_func($imagepath);
         imagecopyresampled($tn, $image, 0, 0, 0, 0, $modwidth, $modheight, $width, $height) ;
         $image_save_func($tn, $save) ;
-
+        // transfert du fichier vers photo
         rename($imagepath, $imagecible);
 
     }
-
-
-
-
-
-
-/*
-        $uploaddir = './uploads/';
-        $uploadfile = $uploaddir . basename($_FILES['photo']['name']);
-
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) {
-        echo "Le fichier est valide, et a été téléchargé avec succès. Voici plus d'informations :\n";
-        } else {
-        echo "Attaque potentielle par téléchargement de fichiers. Voici plus d'informations :\n";
-        }
-
-        echo 'Voici quelques informations de débogage :';
-        print_r($_FILES);
-
-
-    }
-*/
 
 
 }
