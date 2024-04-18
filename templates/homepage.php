@@ -15,9 +15,13 @@
             </p>
             <p>
                 <a href="photos/<?= $pitch['image']; ?>" target="_blank" >
-                    <img src="photos/petite_<?= $pitch['image']; ?>"
-                            title="Afficher l'image" />
+                    <img src="photos/<?= $pitch['image']; ?>" title="Afficher l'image" />
                 </a>
+            </p>
+            <p>
+                <?php if ($pitch["siteWeb"] != Null) {?>
+                <a href=<?php echo $pitch["siteWeb"]; ?> target="_blank"> Site Web</a>
+                <?php } ?>
             </p>
             <p class="zoneText" >
                     Coordonnées GPS (Lat/long):

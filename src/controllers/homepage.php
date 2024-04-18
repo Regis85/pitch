@@ -12,7 +12,7 @@ class Homepage
     public function execute()
     {
         /*===== On récupère les données du pitch =====*/
-        print_r($_SESSION);
+        // print_r($_SESSION);
         $pitch = (new DatabaseConnection())->getPitch($_SESSION['id_pitch']);
         $con = new DatabaseConnection();
         $trous = $con->getTrous($_SESSION['id_pitch']);
