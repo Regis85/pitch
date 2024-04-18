@@ -9,6 +9,7 @@ class DatabaseConnection
 
     public function getConnection(): \PDO
     {
+        // Récupération d'un accès à la base
         if ($this->database === null)
         {
             $servername = "localhost";
@@ -27,6 +28,7 @@ class DatabaseConnection
 
     public function toString(): String
     {
+        // Affichage en clair des données de la connexion
         if  ($this->database === null)
         {
             return "Connexion non définie";
@@ -37,6 +39,7 @@ class DatabaseConnection
 
     public function getPitch($idPitch): array
     {
+        // Récupération des données d'un pitch dans la base
         $sql = "SELECT * FROM pitch WHERE identifiant = ? ";
         $sth = $this->getConnection()->prepare($sql);
         $sth->execute([$idPitch]);
@@ -46,6 +49,7 @@ class DatabaseConnection
 
     public function getTrous($idPitch): array
     {
+        // Récupération des données des trous d'un pitch
         $sql = "SELECT t.longueur FROM trous as t LEFT JOIN pitch as p ON t.id_golf = p.id WHERE p.identifiant = ?; " ;
         $sth = $this->getConnection()->prepare($sql);
         $sth->execute([$idPitch]);
@@ -56,6 +60,7 @@ class DatabaseConnection
 
     public function enregistreDonnees($donnees): bool
     {
+        // Enregistrement des données d'un pitch
         $envoi = [$donnees['name'], $donnees['gps'], $donnees['pitchCompact'] == "on" ? 1 : 0,
                 (int)$donnees['green'], (int)$donnees['tee'],(int)$donnees['greens'],
                 (int)$donnees['tees'], $donnees['competition'] == "on" ? 1 : 0,
@@ -94,6 +99,7 @@ class DatabaseConnection
 
     public function saveNomImage($image): bool
     {
+        // Sauve le nom de l'image du golf
         try {
             $sql = "UPDATE `pitch` SET `image` = ? WHERE `identifiant` = ? ;";
             $sth = $this->getConnection()->prepare($sql);
@@ -107,6 +113,7 @@ class DatabaseConnection
 
     protected function espaces($texte): string
     {
+        // Remplace les espaces par des espaces insécables
         return $texte;
         $texte = str_replace(" ", "&nbsp;", $texte);
         return $texte;
@@ -114,6 +121,7 @@ class DatabaseConnection
 
     protected function trous($trous): bool
     {
+        // Enregistrement des trous d'un pitch
         foreach($trous as $key => $value) {
             if ($value != "" && $value != 0) {
                 try {

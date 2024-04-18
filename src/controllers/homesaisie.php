@@ -63,6 +63,7 @@ class Homesaisie
             $_SESSION['message']['texte'] = "Le mot de passe est invalide";
         }
 
+        // On affiche la page
         require('templates/homesaisie.php');
         $_SESSION['message'] = [];
 

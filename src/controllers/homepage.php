@@ -13,8 +13,8 @@ class Homepage
     {
         /*===== On récupère les données du pitch =====*/
         // print_r($_SESSION);
-        $pitch = (new DatabaseConnection())->getPitch($_SESSION['id_pitch']);
         $con = new DatabaseConnection();
+        $pitch = $con->getPitch($_SESSION['id_pitch']);
         $trous = $con->getTrous($_SESSION['id_pitch']);
 
         /*===== On affiche les données =====*/

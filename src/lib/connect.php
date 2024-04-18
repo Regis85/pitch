@@ -12,30 +12,8 @@ class ConnectRepository
     public function connectUser(): bool
     {
         $this->connection = new DatabaseConnection();
-        try
-        {
-            $sth = $this->connection->getConnection()->prepare(
-                'SELECT * FROM pitch WHERE identifiant = ? ; '
-            );
-            $sth->execute([$_GET['saisie']]);
-
-            $row = $sth->fetch();
-        } catch (Exception $e) {
-            $errorMessage = $e->getMessage();
-            require('templates/error.php');
-        }
-        try
-        {
-            $sth = $this->connection->getConnection()->prepare(
-                'SELECT trou, longueur FROM trous WHERE id_golf = ? ORDER BY trou ASC; '
-            );
-            $sth->execute([$row['id']]);
-
-            $trous = $sth->fetchAll();
-        } catch (Exception $e) {
-            $errorMessage = $e->getMessage();
-            require('templates/error.php');
-        }
+        $this->connection->getPitch($_GET['saisie']);
+        $trous = $this->connection->getTrous($_GET['saisie']);
         $this->chargeSession($row, $trous);
 
         if (!$_SESSION['connecte']) {
