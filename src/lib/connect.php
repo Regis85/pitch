@@ -15,10 +15,12 @@ class ConnectRepository
 
         // On récupère les données du pitch
         $donnees = $this->connection->getPitch($_GET['saisie']);
+
         $trous = $this->connection->getTrous($_GET['saisie']);
         $this->chargeSession($donnees, $trous);
 
-        if (!$_SESSION['connecte']) {
+        if (!isset($_SESSION['connecte']) or !$_SESSION['connecte'])
+        {
             if (isset($_POST['mdp']) && password_verify($_POST['mdp'], $donnees['motDePasse'])) {
                 // Le mot de passe est valide, on crée un identifiant unique provisoire
                 $_SESSION['connecte'] = bin2hex(random_bytes(10));
