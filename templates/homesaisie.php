@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-        <!-- <?= print_r($_SESSION); ?><!-- -->
+        <!-- --<?= print_r($_SESSION); ?><!-- -->
         <!--  --><?= print_r($_POST); ?><!-- -->
         <div class='entete'>
             <h1>
@@ -40,6 +40,8 @@
     <form enctype="multipart/form-data" method="POST">
         <div class='accueil' >
             <p>
+                <input type="hidden" id="identifiant" name="identifiant"
+                        value="<?= $_SESSION['id_pitch']; ?>" />
                 <label for="nom">Nom du club :</label>
                 <input type="text" id="nom" name="name" size="36"
                         value="<?= $_SESSION['club']['nom']; ?>" <?= $disabled; ?> />
@@ -299,6 +301,8 @@
 <?php if ($_SESSION['connecte']) { ?>
         <div class="dirigeants center">
             <p>
+                <input type="hidden" id="id_Gerant" name="id_Gerant"
+                        value = 0 />
                 <label for="gerant">Directeur/gérant</label>
                 <input type="text" id="gerant" name="gerant" size=50 value="" />
                 <label for="gerantTel">téléphone : </label>
@@ -307,6 +311,8 @@
                 <input type="text" id="gerantCourriel" name="gerantCourriel" size=40 value="" />
             </p>
             <p>
+                <input type="hidden" id="id_AS" name="id_AS"
+                        value = 0 />
                 <label for="presidentAS">Pésident de l'AS</label>
                 <input type="text" id="presidentAS" name="presidentAS" size=50 value="" />
                 <label for="asTel">téléphone : </label>
@@ -315,6 +321,8 @@
                 <input type="text" id="asCourriel" name="asCourriel" size=40 value="" />
             </p>
             <p>
+                <input type="hidden" id="id_CPPF" name="id_CPPF"
+                        value = 0 />
                 <label for="cppf">Référent CPPF</label>
                 <input type="text" id="cppf" name="cppf" size=50 value="" />
                 <label for="cppfTel">téléphone : </label>
@@ -333,8 +341,10 @@
             </p>
             -->
             <p>
+                <input type="hidden" id="id_nouveauPro" name="id_nouveauPro"
+                        value= 0 />
                 <label for="nouveauPro">Enseignant du golf</label>
-                <input type="text" id="nouveauPro" name="pro" size=50 value="" />
+                <input type="text" id="nouveauPro" name="nouveauPro" size=50 value="" />
                 <label for="nouveauProTel">téléphone : </label>
                 <input type="text" id="nouveauProTel" name="nouveauProTel" size=20 value="" />
                 <label for="nouveauProCourriel">Courriel :</label>

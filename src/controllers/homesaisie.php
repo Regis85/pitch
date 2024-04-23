@@ -4,9 +4,11 @@ namespace Application\Controllers\Homesaisie;
 
 require_once('src/lib/database.php');
 require_once('src/lib/importe_image.php');
+require_once('src/lib/user.php');
 
 use Application\Lib\Database\DatabaseConnection;
 use Application\Lib\ImportImage\ImportImage;
+use Application\Lib\User\User;
 
 class Homesaisie
 {
@@ -47,6 +49,42 @@ class Homesaisie
                         $txtErreur = "Erreur " . $_FILES['doc']['error'] ." lors du téléchargement";
                     }
                     $_SESSION['message']['texte'] = $txtErreur;
+                }
+                // Enregistrement des dirigeants
+                if ($_POST['gerant'])
+                {
+                    $newDirigeant = new User();
+                    $newDirigeant->chargeUser($_POST['id_Gerant'], $_POST['gerant'],
+                                $_POST['gerantTel'], $_POST['gerantCourriel'], 1);
+                    $newDirigeant->enregistreUser();
+                    $newDirigeant->lieGolf($id_golf);
+                }
+
+                if ($_POST['presidentAS'])
+                {
+                    $newAS = new User();
+                    $newAS->chargeUser($_POST['id_AS'], $_POST['presidentAS'],
+                                $_POST['asTel'], $_POST['asCourriel'], 2);
+                    $newAS->enregistreUser();
+                    $newAS->lieGolf($id_golf);
+                }
+
+                if ($_POST['cppf'])
+                {
+                    $newCPPF = new User();
+                    $newCPPF->chargeUser($_POST['id_CPPF'], $_POST['cppf'],
+                                $_POST['cppfTel'], $_POST['cppfCourriel'], 3);
+                    $newCPPF->enregistreUser();
+                    $newCPPF->lieGolf($id_golf);
+                }
+
+                if ($_POST['nouveauPro'])
+                {
+                    $newPro = new User();
+                    $newPro->chargeUser($_POST['id_nouveauPro'], $_POST['nouveauPro'],
+                                $_POST['nouveauProTel'], $_POST['nouveauProCourriel'], 4);
+                    $newPro->enregistreUser();
+                    $newPro->lieProGolf($id_golf);
                 }
 
             }
