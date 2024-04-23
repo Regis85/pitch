@@ -1,5 +1,6 @@
 <?php ob_start(); ?>
-        <!-- <?= print_r($_SESSION); ?> -->
+        <!-- <?= print_r($_SESSION); ?><!-- -->
+        <!--  --><?= print_r($_POST); ?><!-- -->
         <div class='entete'>
             <h1>
                 Pitch & Putt
@@ -295,6 +296,56 @@
             </p>
 <?php } ?>
         </div>
+<?php if ($_SESSION['connecte']) { ?>
+        <div class="dirigeants center">
+            <p>
+                <label for="gerant">Directeur/gérant</label>
+                <input type="text" id="gerant" name="gerant" size=50 value="" />
+                <label for="gerantTel">téléphone : </label>
+                <input type="text" id="gerantTel" name="gerantTel" size=20 value="" />
+                <label for="gerantCourriel">Courriel :</label>
+                <input type="text" id="gerantCourriel" name="gerantCourriel" size=40 value="" />
+            </p>
+            <p>
+                <label for="presidentAS">Pésident de l'AS</label>
+                <input type="text" id="presidentAS" name="presidentAS" size=50 value="" />
+                <label for="asTel">téléphone : </label>
+                <input type="text" id="asTel" name="asTel" size=20 value="" />
+                <label for="asCourriel">Courriel :</label>
+                <input type="text" id="asCourriel" name="asCourriel" size=40 value="" />
+            </p>
+            <p>
+                <label for="cppf">Référent CPPF</label>
+                <input type="text" id="cppf" name="cppf" size=50 value="" />
+                <label for="cppfTel">téléphone : </label>
+                <input type="text" id="cppfTel" name="cppfTel" size=20 value="" />
+                <label for="cppfCourriel">Courriel :</label>
+                <input type="text" id="cppfCourriel" name="cppfCourriel" size=40 value="" />
+            </p>
+            <!-- Affichage des pros déjà inscrits
+            <p>
+                <label for="pro1">Enseignant du golf</label>
+                <input type="text" id="pro1" name="pro" size=50 value="" />
+                <label for="">téléphone : </label>
+                <input type="text" id="nouveauPro1Tel" name="nouveauPro1Tel" size=20 value="" />
+                <label for="">Courriel :</label>
+                <input type="text" id="nouveauPro1Courriel" name="nouveauPro1Courriel" size=40 value="" />
+            </p>
+            -->
+            <p>
+                <label for="nouveauPro">Enseignant du golf</label>
+                <input type="text" id="nouveauPro" name="pro" size=50 value="" />
+                <label for="nouveauProTel">téléphone : </label>
+                <input type="text" id="nouveauProTel" name="nouveauProTel" size=20 value="" />
+                <label for="nouveauProCourriel">Courriel :</label>
+                <input type="text" id="nouveauProCourriel"
+                        name="nouveauProCourriel" size=40 value="" />
+            </p>
+            <p>
+                <input type="submit" value="Enregistrer" />
+            </p>
+        </div>
+<?php } ?>
     </form>
 
 

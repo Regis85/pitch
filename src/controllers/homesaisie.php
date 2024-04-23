@@ -25,6 +25,7 @@ class Homesaisie
                 // Des données on été envoyées
                 if (isset($_FILES["photo"]))
                 {
+                    $txtErreur = Null;
                     // On a envoyé une photo
                     if ($_FILES["photo"]["error"] == 0)
                     {
@@ -41,12 +42,13 @@ class Homesaisie
                     } elseif ($_FILES["photo"]["error"] == UPLOAD_ERR_FORM_SIZE) {
                         $_SESSION['message']['class'] = "rouge";
                         $txtErreur = "Le fichier photo est trop grand (30Mo maxi)";
-                    } elseif ($_FILES["name"])  {
+                    } elseif (isset($_FILES["name"]) && $_FILES["name"])  {
                         $_SESSION['message']['class'] = "rouge";
                         $txtErreur = "Erreur " . $_FILES['doc']['error'] ." lors du téléchargement";
                     }
                     $_SESSION['message']['texte'] = $txtErreur;
                 }
+
             }
             $disabled = "";
             $cacherConnect = ""; $cacherEnregistre = "";
