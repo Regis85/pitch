@@ -19,10 +19,27 @@
                 </a>
             </p>
             <p>
-                <?php if ($pitch["siteWeb"] != Null) {?>
-                <a href=<?php echo $pitch["siteWeb"]; ?> target="_blank"> Site Web</a>
-                <?php } ?>
+<?php if ($pitch["telephone"] !="") { ?>
+                Téléphone : <?= $pitch["telephone"] ?>
+                -
+<?php } ?>
+<?php if ($pitch["siteWeb"] != Null) { ?>
+                <a href=<?= $pitch["siteWeb"]; ?> target="_blank"> Site Web</a>
+                -
+<?php } ?>
+<?php if ($pitch["courriel"] !="") { ?>
+                <a href=mailto:<?= $pitch["courriel"] ?> >Envoyer un courriel</a>
+<?php } ?>
             </p>
+<?php if ($pitch["actualites"] != "") { ?>
+            <p>
+                Actualités
+                <br>
+                <textarea class="affiche" readonly="yes">
+                    <?php echo $pitch["actualites"] ?>
+                </textarea>
+            </p>
+<?php } ?>
             <p class="zoneText" >
                     Coordonnées GPS (Lat/long):
                     <?php echo $pitch["gps"] ?>
@@ -55,18 +72,18 @@
                     <?php } ?>
                 </span>
             </p>
-            <?php if ($pitch["competition"] === 1 or $pitch["entrainement"] === 1) { ?>
+<?php if ($pitch["competition"] === 1 or $pitch["entrainement"] === 1) { ?>
             <p>
                 <span class="zoneText" >
-                    <?php if ($pitch["competition"] === 1) { ?>
+    <?php if ($pitch["competition"] === 1) { ?>
                         Parcours de compétition
-                    <?php } ?>
-                    <?php if ($pitch["entrainement"] === 1) { ?>
+    <?php } ?>
+    <?php if ($pitch["entrainement"] === 1) { ?>
                         - Espace d'entraînement
-                    <?php } ?>
+    <?php } ?>
                 </span>
             </p>
-            <?php } ?>
+<?php } ?>
             <p>
                 <span class="zoneText" >
                     Longueur totale :
@@ -91,8 +108,9 @@
             <p>
                 Conditions d’accès : baptême, licence, carte verte, âges, étiquette …
                 <br>
-                <textarea class="affiche"
-                        readonly="yes";><?php echo $pitch["conditionAcces"] ?></textarea>
+                <textarea class="affiche" readonly="yes">
+<?php echo $pitch["acces"] ?>
+                </textarea>
             </p>
 <?php if ($pitch["zoneEntrainement"] === 1) { ?>
             <p>
@@ -103,13 +121,13 @@
 <?php } ?>
             <p>
                 <span class="zoneText" >
-<?php if ($pitch["locationClubs"] === 1) { ?>
+<?php if ($pitch["locationClubs"] === 2) { ?>
                     Location de clubs
 <?php } else if ($pitch["locationClubs"] === 1) { ?>
                     Prêt de clubs
 <?php } ?>
                 -
-<?php if ($pitch["locationClubs"] === 1) { ?>
+<?php if ($pitch["locationClubs"] === 2) { ?>
                     Location de sacs
 <?php } else if ($pitch["locationClubs"] === 1) { ?>
                     Prêt de sacs
@@ -119,32 +137,40 @@
             <p>
                 Tarifs
                 <br>
-                <textarea class="affiche" readonly="yes";><?php echo $pitch["tarifs"] ?></textarea>
+                <textarea class="affiche" readonly="yes">
+<?= $pitch["tarifs"] ?>
+                </textarea>
             </p>
             <p>
                 Horaires (saisons, jours, heures) :
                 <br>
-                <span id="acces" class="zoneText" ><?php echo $pitch["horaires"] ?></span>
-            </p>
-            <?php if ($pitch["restaurant"] == 10 or $pitch["restauRapide"] == 1) { ?>
-                <p>
-                    <span class="zoneText" >
-                    <?php if ($pitch["restaurant"]) { ?>Restaurant<?php } ?>
+                <textarea class="affiche" readonly="yes">
+<?php echo $pitch["horaires"] ?>
+                </textarea>
+<?php if ($pitch["restaurant"] == 10 or $pitch["restauRapide"] == 1) { ?>
+            <p>
+                <span class="zoneText" >
+    <?php if ($pitch["restaurant"]) { ?>Restaurant<?php } ?>
 
-                    <?php if ($pitch["restauRapide"]) { ?> - Restauration rapide<?php } ?>
-                    </span>
-                 </p>
-            <?php } ?>
-            </p>
+    <?php if ($pitch["restauRapide"]) { ?> - Restauration rapide<?php } ?>
+                </span>
+             </p>
+<?php } ?>
             <p>
                 Horaires Restauration :
                 <br>
-                <span id="acces" class="zoneText" ><?php echo $pitch["horaireRestau"] ?></span>
+                <textarea class="affiche" readonly="yes">
+<?php echo $pitch["horaireRestau"] ?>
+                </textarea>
             </p>
+<?php if ($pitch["siteWeb"] != Null) {?>
             <p>
-                <?php if ($pitch["siteWeb"] != Null) {?>
                 <a href=<?php echo $pitch["siteWeb"]; ?> target="_blank"> Site Web</a>
-                <?php } ?>
+            </p>
+<?php } ?>
+            <p>
+                Les données de ce site sont peut-être obsolètes,
+                n'hésitez pas à contacter l'accueil du golf.
             </p>
         </div>
 

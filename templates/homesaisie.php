@@ -1,6 +1,6 @@
 <?php ob_start(); ?>
         <!-- --<?= print_r($_SESSION); ?><!-- -->
-        <!--  --><?= print_r($_POST); ?><!-- -->
+        <!--  --<?= print_r($_POST); ?><!-- -->
         <div class='entete'>
             <h1>
                 Pitch & Putt
@@ -42,15 +42,22 @@
             <p>
                 <input type="hidden" id="identifiant" name="identifiant"
                         value="<?= $_SESSION['id_pitch']; ?>" />
-                <label for="nom">Nom du club :</label>
+                <label for="nom">Nom du club : </label>
                 <input type="text" id="nom" name="name" size="36"
                         value="<?= $_SESSION['club']['nom']; ?>" <?= $disabled; ?> />
                 <input type="hidden" name="connecte" value="<?= $_SESSION['connecte']; ?>" />
             </p>
             <p>
+                <label for="phone">Téléphone : </label>
+                <input type="tel" id="phone" name="phone"
+                        value="<?= $_SESSION['club']['telephone']; ?>" <?= $disabled; ?> />
+                <label for="courriel">Courriel : </label>
+                <input type="text" id="courriel" name="courriel" size="36"
+                        value="<?= $_SESSION['club']['courriel']; ?>" <?= $disabled; ?> />
+            </p>
+            <p>
                 <a href="photos/<?= $_SESSION['club']['image'] ?>" target="_blank" >
                 <img class="photoClub" src="photos/<?= $_SESSION['club']['image']; ?>"
-
                         alt="<?php echo $_SESSION['club']['nom'] ?>" title="Afficher l'image" />
 <?php if ($disabled !=="disabled") { ?>
                 </a>
@@ -60,6 +67,16 @@
                 <label for="photo">Photo</label>
                 <input type="file" id="photo" name="photo" accept=".png, .jpg, .jpeg, .jpeg," />
 <?php } ?>
+            </p>
+            <p>
+                <label for="actualites">Actualités</label>
+                <br>
+                <textarea id="actualites"
+                        class="tab4"
+                        name="actualites"
+                        rows="10"
+                        cols="80"
+                        <?= $disabled; ?> ><?= $_SESSION['club']['actualites']; ?></textarea>
             </p>
             <p>
                 <label for="gps">Coordonnées GPS (Lat/Lon):</label>
@@ -358,8 +375,6 @@
 <?php } ?>
     </form>
 
-
-<?php if ($_SESSION['connecte']) { ?>
     <form method="POST">
         <div class='connexion' <?= $cacherConnect; ?> >
             <p class='center' >
@@ -368,7 +383,6 @@
             </p>
         </div>
     </form>
-<?php } ?>
 
 <?php $content = ob_get_clean(); ?>
 

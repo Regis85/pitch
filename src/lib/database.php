@@ -12,10 +12,10 @@ class DatabaseConnection
         // Récupération d'un accès à la base
         if ($this->database === null)
         {
-            $servername = "localhost";
-            $username = "pitch_user";
-            $password = "@2hZkGnY]H@OsoWe";
-            $myDB = "pitchgolf";
+            $servername = "localhost"; // Easy hebergement
+            $username = "pitch_user"; // Easy hebergement
+            $password = "@2hZkGnY]H@OsoWe"; // Easy hebergement 2hZkGnYHOsoWe0
+            $myDB = "pitchgolf"; // Easy hebergement
 
             try {
                 $this->database = new \PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
@@ -71,7 +71,9 @@ class DatabaseConnection
                     1 : 0,
                 isset($donnees['restoRapide']) && $donnees['restoRapide'] == "on" ? 1 : 0,
                 $this->espaces($donnees['menuRapide']), $this->espaces($donnees['acces']),
-                $donnees['web'], $_SESSION['id_pitch']];
+                $donnees['web'],
+                $donnees['phone'], $donnees['courriel'], $this->espaces($donnees['actualites']),
+                $_SESSION['id_pitch']];
 
         try {
             $sql = "UPDATE `pitch`
@@ -80,7 +82,8 @@ class DatabaseConnection
                         `entrainement` = ?, `longTotale` = ?, `zoneEntrainement` = ?,
                         `locationClubs` = ?, `locationSac` = ?, `tarifs` = ?, `horaires` = ?,
                         `restaurant` = ?, `restauRapide` = ?, `horaireRestau` = ?,
-                        `acces` = ?, `siteWeb` = ?
+                        `acces` = ?, `siteWeb` = ?, `telephone` = ?, `courriel` = ?,
+                        `actualites` = ?
                     WHERE `identifiant` = ? ;";
             $sth = $this->getConnection()->prepare($sql);
             $sth->execute($envoi);

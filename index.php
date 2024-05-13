@@ -54,8 +54,7 @@ if (isset($_GET['saisie']) && $_GET['saisie'] != "")
         $homesaisie->execute();
     } elseif (isset($_POST['id_soumit']) &&  $_POST['id_soumit'] === "Quitter"){
         // On retourne sur pitchgolf.fr
-        header('Location: https://pitchgolf.fr/les-parcours/');
-        die();
+        retourPitchGolf();
     } elseif (isset($_POST['id_soumit']) &&  $_POST['id_soumit'] === "donnees"){
         // Si on envoie des données
         if ($_SESSION['connecte'] !==$_POST['connecte']) {
@@ -89,6 +88,15 @@ else
     // pour l'instant rien, ensuite Retour à la page de Pitchgolf/parcours
     // header('Location: https://pitchgolf.fr/les-parcours/');
     echo "Vous devez indiquez un numéro de golf";
+    session_destroy();
+    die();
+}
+
+
+function retourPitchGolf(){
+    // Retour à la page de Pitchgolf/parcours
+    session_destroy();
+    header('Location: https://pitchgolf.fr/les-parcours/');
     die();
 }
 

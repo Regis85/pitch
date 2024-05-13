@@ -24,6 +24,7 @@ class Homesaisie
             // responsable de club identifié
             if (isset($_POST))
             {
+                $id_golf = $_POST['identifiant'];
                 // Des données on été envoyées
                 if (isset($_FILES["photo"]))
                 {
@@ -51,7 +52,7 @@ class Homesaisie
                     $_SESSION['message']['texte'] = $txtErreur;
                 }
                 // Enregistrement des dirigeants
-                if ($_POST['gerant'])
+                if (isset($_POST['gerant']))
                 {
                     $newDirigeant = new User();
                     $newDirigeant->chargeUser($_POST['id_Gerant'], $_POST['gerant'],
@@ -60,7 +61,7 @@ class Homesaisie
                     $newDirigeant->lieGolf($id_golf);
                 }
 
-                if ($_POST['presidentAS'])
+                if (isset($_POST['presidentAS']))
                 {
                     $newAS = new User();
                     $newAS->chargeUser($_POST['id_AS'], $_POST['presidentAS'],
@@ -69,7 +70,7 @@ class Homesaisie
                     $newAS->lieGolf($id_golf);
                 }
 
-                if ($_POST['cppf'])
+                if (isset($_POST['cppf']))
                 {
                     $newCPPF = new User();
                     $newCPPF->chargeUser($_POST['id_CPPF'], $_POST['cppf'],
@@ -78,7 +79,7 @@ class Homesaisie
                     $newCPPF->lieGolf($id_golf);
                 }
 
-                if ($_POST['nouveauPro'])
+                if (isset($_POST['nouveauPro']))
                 {
                     $newPro = new User();
                     $newPro->chargeUser($_POST['id_nouveauPro'], $_POST['nouveauPro'],
