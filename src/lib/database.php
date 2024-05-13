@@ -12,10 +12,7 @@ class DatabaseConnection
         // Récupération d'un accès à la base
         if ($this->database === null)
         {
-            $servername = "localhost"; // Easy hebergement
-            $username = "pitch_user"; // Easy hebergement
-            $password = "@2hZkGnY]H@OsoWe"; // Easy hebergement 2hZkGnYHOsoWe0
-            $myDB = "pitchgolf"; // Easy hebergement
+            require_once 'identifiants.php';
 
             try {
                 $this->database = new \PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
