@@ -50,8 +50,10 @@ if (isset($_GET['saisie']) && $_GET['saisie'] != "")
         $saveMdp = new ChangeMdp();
         $saveMdp->execute();
 
+/*
         $homesaisie = new Homesaisie();
         $homesaisie->execute();
+*/
     } elseif (isset($_POST['id_soumit']) &&  $_POST['id_soumit'] === "Quitter"){
         // On retourne sur pitchgolf.fr
         retourPitchGolf();
