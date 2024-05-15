@@ -24,7 +24,7 @@ class Homesaisie
             // responsable de club identifié
             if (isset($_POST))
             {
-                $id_golf = $_POST['identifiant'];
+                $id_golf = $_GET['saisie'];
                 // Des données on été envoyées
                 if (isset($_FILES["photo"]))
                 {
@@ -105,6 +105,7 @@ class Homesaisie
         }
 
         // On affiche la page de saisie
+        if (!isset($_SESSION["club"]["identifiant"])) { die; }
         require('templates/homesaisie.php');
         $_SESSION['message'] = [];
 

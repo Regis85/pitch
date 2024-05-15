@@ -16,10 +16,15 @@ use Application\Lib\Database\DatabaseConnection;
 session_start();
 
 $_SESSION['mdp'] = False;
-
-// print_r($_POST);
-// echo "<br>=====<br>";
+/* *
+print_r($_POST);
+echo "<br>=====<br>";
+print_r($_GET);
+echo "<br>=====<br>";
+print_r($_SESSION);
+echo "<br>=====<br>";
 // print_r($_FILES);
+* */
 
 if (isset($_GET['saisie']) && $_GET['saisie'] != "")
 {
@@ -46,14 +51,22 @@ if (isset($_GET['saisie']) && $_GET['saisie'] != "")
             }
         }
     } elseif (isset($_POST['id_soumit']) &&  $_POST['id_soumit'] === "mdp"){
-        // Un utilisateur essaie de changer le mot de passe
+        // Un utilisateur veut changer le mot de passe
         $saveMdp = new ChangeMdp();
         $saveMdp->execute();
+    } elseif (isset($_POST['changeMdp']) &&  $_POST['changeMdp'] == "1"){
+        // Un utilisateur essaie de changer le mot de passe
+        $saveMdp = new ChangeMdp();
+        $sauveMdp = $saveMdp->verifieMdp(); // On vérifie que le mot de passe peut être changer
 
-/*
+        if (!$sauveMdp) {
+            $homesaisie = new Homesaisie();
+            $homesaisie->execute();
+        }
+
         $homesaisie = new Homesaisie();
         $homesaisie->execute();
-*/
+
     } elseif (isset($_POST['id_soumit']) &&  $_POST['id_soumit'] === "Quitter"){
         // On retourne sur pitchgolf.fr
         retourPitchGolf();

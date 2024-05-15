@@ -1,6 +1,4 @@
 <?php ob_start(); ?>
-        <!-- --<?= print_r($_SESSION); ?><!-- -->
-        <!--  --<?= print_r($_POST); ?><!-- -->
         <div class='entete'>
             <h1>
                 Pitch & Putt

@@ -12,7 +12,7 @@ class DatabaseConnection
         // Récupération d'un accès à la base
         if ($this->database === null)
         {
-            require_once 'identifiants.php';
+            require 'identifiants.php';
 
             try {
                 $this->database = new \PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
@@ -34,7 +34,7 @@ class DatabaseConnection
         }
     }
 
-    public function getPitch($idPitch): array
+    public function getPitch($idPitch)
     {
         // Récupération des données d'un pitch dans la base
         $sql = "SELECT * FROM pitch WHERE identifiant = ? ";
@@ -53,6 +53,23 @@ class DatabaseConnection
         $results = $sth->fetchall();
 
         return $results;
+    }
+
+    public function enregistreMdp($mdp, $id_club): bool
+    {
+        // Enregistre le mot de passe
+        $mdp = password_hash($mdp, PASSWORD_DEFAULT);
+        $envoi = [$mdp, $id_club];
+        try {
+            $sql = "UPDATE `pitch` SET `motDePasse` = ? WHERE `identifiant` = ?";
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute($envoi);
+
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return false;
+        }
+        return true;
     }
 
     public function enregistreDonnees($donnees): bool
