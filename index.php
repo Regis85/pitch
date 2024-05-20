@@ -16,15 +16,15 @@ use Application\Lib\Database\DatabaseConnection;
 session_start();
 
 $_SESSION['mdp'] = False;
-/* *
 print_r($_POST);
 echo "<br>=====<br>";
+/* *
 print_r($_GET);
 echo "<br>=====<br>";
+* */
 print_r($_SESSION);
 echo "<br>=====<br>";
 // print_r($_FILES);
-* */
 
 if (isset($_GET['saisie']) && $_GET['saisie'] != "")
 {
@@ -58,11 +58,6 @@ if (isset($_GET['saisie']) && $_GET['saisie'] != "")
         // Un utilisateur essaie de changer le mot de passe
         $saveMdp = new ChangeMdp();
         $sauveMdp = $saveMdp->verifieMdp(); // On vérifie que le mot de passe peut être changer
-
-        if (!$sauveMdp) {
-            $homesaisie = new Homesaisie();
-            $homesaisie->execute();
-        }
 
         $homesaisie = new Homesaisie();
         $homesaisie->execute();

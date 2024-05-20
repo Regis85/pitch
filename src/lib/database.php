@@ -46,10 +46,25 @@ class DatabaseConnection
 
     public function getTrous($idPitch): array
     {
-        // Récupération des données des trous d'un pitch
-        $sql = "SELECT t.longueur FROM trous as t LEFT JOIN pitch as p ON t.id_golf = p.id WHERE p.identifiant = ?; " ;
+        // Récupération des données des trous d'un pitch à partir de son identifiant
+        $sql = "SELECT t.longueur FROM trous as t LEFT JOIN pitch as p ON t.id_golf = p.id
+                    WHERE p.identifiant = ?; " ;
         $sth = $this->getConnection()->prepare($sql);
         $sth->execute([$idPitch]);
+        $results = $sth->fetchall();
+
+        return $results;
+    }
+
+    public function chargeDirigeants($idPitch):array
+    {
+        // Récupération des données des dirigeants partir de l'identifiant du pitch
+        $sql = "SELECT pi.* FROM `prive` as pi LEFT JOIN `professionnels` as po
+            ON pi.id = po.id_user
+            WHERE pi.statut <> ? AND po.id_golf = ?
+            ORDER BY pi.statut;";
+        $sth = $this->getConnection()->prepare($sql);
+        $sth->execute([4, $idPitch]);
         $results = $sth->fetchall();
 
         return $results;

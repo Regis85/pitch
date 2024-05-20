@@ -57,7 +57,7 @@ class User
 
     public function lieGolf($id_golf):bool
     {
-        echo "lieGolf";
+        echo "lire les dirigeants du Golf ";
         return true;
     }
 

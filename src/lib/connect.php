@@ -45,6 +45,13 @@ class ConnectRepository
         foreach ($trous as $trou => $longueur) {
             $_SESSION['club']['trou'][$trou] = $longueur['longueur'] ;
         }
+/*
+        echo ("<br>------ dirigeants -------<br>" . $_SESSION['club']['id'] . "<br>-------------<br>");
+        $dirigeants = $this->connection->chargeDirigeants($_SESSION['club']['id']);
+        print_r($dirigeants);
+*/
+        $dirigeants = $this->connection->chargeDirigeants($_SESSION['club']['id']);
+        $_SESSION['club']['dirigeants'] = $dirigeants;
         return true;
     }
 

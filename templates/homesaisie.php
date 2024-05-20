@@ -317,33 +317,42 @@
         <div class="dirigeants center">
             <p>
                 <input type="hidden" id="id_Gerant" name="id_Gerant"
-                        value = 0 />
+                        value = <?= $_SESSION['club']['dirigeants'][0][0] ?> />
                 <label for="gerant">Directeur/gérant</label>
-                <input type="text" id="gerant" name="gerant" size=50 value="" />
+                <input type="text" id="gerant" name="gerant" size=50
+                        value="<?= $_SESSION['club']['dirigeants'][0][1] ?>" />
                 <label for="gerantTel">téléphone : </label>
-                <input type="text" id="gerantTel" name="gerantTel" size=20 value="" />
+                <input type="text" id="gerantTel" name="gerantTel" size=20
+                        value="<?= $_SESSION['club']['dirigeants'][0][2] ?>" />
                 <label for="gerantCourriel">Courriel :</label>
-                <input type="text" id="gerantCourriel" name="gerantCourriel" size=40 value="" />
+                <input type="text" id="gerantCourriel" name="gerantCourriel" size=40
+                    value="<?= $_SESSION['club']['dirigeants'][0][3] ?>" />
             </p>
             <p>
                 <input type="hidden" id="id_AS" name="id_AS"
-                        value = 0 />
+                        value = <?= $_SESSION['club']['dirigeants'][1][0] ?> />
                 <label for="presidentAS">Pésident de l'AS</label>
-                <input type="text" id="presidentAS" name="presidentAS" size=50 value="" />
+                <input type="text" id="presidentAS" name="presidentAS" size=50
+                        value="<?= $_SESSION['club']['dirigeants'][1][1] ?>" />
                 <label for="asTel">téléphone : </label>
-                <input type="text" id="asTel" name="asTel" size=20 value="" />
+                <input type="text" id="asTel" name="asTel" size=20
+                        value="<?= $_SESSION['club']['dirigeants'][1][2] ?>" />
                 <label for="asCourriel">Courriel :</label>
-                <input type="text" id="asCourriel" name="asCourriel" size=40 value="" />
+                <input type="text" id="asCourriel" name="asCourriel" size=40
+                        value="<?= $_SESSION['club']['dirigeants'][1][3] ?>" />
             </p>
             <p>
                 <input type="hidden" id="id_CPPF" name="id_CPPF"
-                        value = 0 />
+                        value = <?= $_SESSION['club']['dirigeants'][2][0] ?> />
                 <label for="cppf">Référent CPPF</label>
-                <input type="text" id="cppf" name="cppf" size=50 value="" />
+                <input type="text" id="cppf" name="cppf" size=50
+                        value="<?= $_SESSION['club']['dirigeants'][2][1] ?>" />
                 <label for="cppfTel">téléphone : </label>
-                <input type="text" id="cppfTel" name="cppfTel" size=20 value="" />
+                <input type="text" id="cppfTel" name="cppfTel" size=20
+                        value="<?= $_SESSION['club']['dirigeants'][2][2] ?>" />
                 <label for="cppfCourriel">Courriel :</label>
-                <input type="text" id="cppfCourriel" name="cppfCourriel" size=40 value="" />
+                <input type="text" id="cppfCourriel" name="cppfCourriel" size=40
+                        value="<?= $_SESSION['club']['dirigeants'][2][3] ?>" />
             </p>
             <!-- Affichage des pros déjà inscrits
             <p>
@@ -354,7 +363,7 @@
                 <label for="">Courriel :</label>
                 <input type="text" id="nouveauPro1Courriel" name="nouveauPro1Courriel" size=40 value="" />
             </p>
-            -->
+
             <p>
                 <input type="hidden" id="id_nouveauPro" name="id_nouveauPro"
                         value= 0 />
@@ -366,6 +375,7 @@
                 <input type="text" id="nouveauProCourriel"
                         name="nouveauProCourriel" size=40 value="" />
             </p>
+            -->
             <p>
                 <input type="submit" value="Enregistrer" />
             </p>
