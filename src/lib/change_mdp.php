@@ -27,7 +27,14 @@ class ChangeMdp
             return False;
         }
 
-        // Vérifier $_SESSION[connecte] =  $_POST[connecte] <br>';
+        // On vérifie que le nouveau mot de passe n'est pas vide
+        if ($_POST['nouveauMdp'] =='') {
+            $_SESSION['message']['class'] = "rouge gras grand";
+            $_SESSION['message']['texte'] = "Erreur de saisie du mot de passe,<br>le nouveau mot de passe ne peut pas être vide";
+            return True;
+        }
+
+        // Vérifier $_SESSION[connecte] =  $_POST[connecte];
         if ($_SESSION['connecte'] !== $_POST['connecte']) {
             die();
         }
