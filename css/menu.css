@@ -1,40 +1,19 @@
-#menu {
-    position: fixed;
-    right: 0;
-    top: 50%;
-    width: 10em;
-    margin: -2.5em 0 0 0;
-    z-index: 5;
-    background: hsla(80, 90%, 40%, 0.7);
-    color: #2F4F4F;
-    font-weight: bold;
-    font-size: large;
-    text-align: left;
-    border: solid hsla(80, 90%, 40%, 0.5);
-    border-right: none;
-    padding: 0.5em 0.5em 0.5em 2.5em;
-    box-shadow: 0 1px 3px black;
-    border-radius: 3em 0.5em 0.5em 3em;
+/* CSS spécifique au menu */
+
+nav ul {
+    list-style-type: none;
 }
 
-p.stb { text-indent: 0; margin-top: 0.83em }
-p.mtb { text-indent: 0; margin-top: 2.17em }
-p.ltb { text-indent: 0; margin-top: 3.08em }
-
-#menu a, #menu a:visited {
-    color: #2F3F3F;
-    text-decoration:none;
+nav li {
+    float: left;
+    width: 25%;
 }
 
-#menu a:hover {
-    color: black;
+nav ul::after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
-hr
-{
-    height: 2px;
-    color: #839D2D;
-    background-color: #839D2D;
-    width: 100%;
-    border: none;
-}
+
+
