@@ -59,10 +59,9 @@ class DatabaseConnection
     public function chargeDirigeants($idPitch):array
     {
         // Récupération des données des dirigeants partir de l'identifiant du pitch
-        $sql = "SELECT pi.* FROM `prive` as pi LEFT JOIN `professionnels` as po
-            ON pi.id = po.id_user
-            WHERE pi.statut <> ? AND po.id_golf = ?
-            ORDER BY pi.statut;";
+        $sql = "SELECT pi.* FROM `prive` as pi
+            WHERE pi.status <> ? AND pi.id_golf = ?
+            ORDER BY pi.status;";
         $sth = $this->getConnection()->prepare($sql);
         $sth->execute([4, $idPitch]);
         $results = $sth->fetchall();
@@ -126,6 +125,10 @@ class DatabaseConnection
             return false;
         }
 
+        if (!$this->saveDirigeants()) {
+            return false;
+        }
+
         return true;
     }
 
@@ -174,6 +177,21 @@ class DatabaseConnection
                 }
             }
         }
+        return true;
+    }
+
+    protected  function saveDirigeants(): bool
+    {
+        // Enregistre les données des dirigeants
+        foreach($_SESSION['club']['dirigeants'] as $key => $value) {
+            $id = $value['id'] ? $value['id'] : Null;
+            if ($value['Nom'] == "") {
+                continue;
+            } else {
+                $nom = $value['Nom'];
+            }
+        }
+
         return true;
     }
 

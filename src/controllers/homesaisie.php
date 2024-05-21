@@ -56,29 +56,29 @@ class Homesaisie
                 {
                     $newDirigeant = new User();
                     $newDirigeant->chargeUser($_POST['id_Gerant'], $_POST['gerant'],
-                                $_POST['gerantTel'], $_POST['gerantCourriel'], 1);
+                                $_POST['gerantTel'], $_POST['gerantCourriel'], $_SESSION['club']['id'], 1);
                     $newDirigeant->enregistreUser();
-                    $newDirigeant->lieGolf($id_golf);
+                    $newDirigeant->lieGolf($id_golf, 1);
                 }
 
                 if (isset($_POST['presidentAS']))
                 {
                     $newAS = new User();
                     $newAS->chargeUser($_POST['id_AS'], $_POST['presidentAS'],
-                                $_POST['asTel'], $_POST['asCourriel'], 2);
+                                $_POST['asTel'], $_POST['asCourriel'], $_SESSION['club']['id'], 2);
                     $newAS->enregistreUser();
-                    $newAS->lieGolf($id_golf);
+                    $newAS->lieGolf($id_golf, 2);
                 }
 
                 if (isset($_POST['cppf']))
                 {
                     $newCPPF = new User();
                     $newCPPF->chargeUser($_POST['id_CPPF'], $_POST['cppf'],
-                                $_POST['cppfTel'], $_POST['cppfCourriel'], 3);
+                                $_POST['cppfTel'], $_POST['cppfCourriel'], $_SESSION['club']['id'], 3);
                     $newCPPF->enregistreUser();
-                    $newCPPF->lieGolf($id_golf);
+                    $newCPPF->lieGolf($id_golf, 3);
                 }
-
+/*
                 if (isset($_POST['nouveauPro']))
                 {
                     $newPro = new User();
@@ -87,7 +87,7 @@ class Homesaisie
                     $newPro->enregistreUser();
                     $newPro->lieProGolf($id_golf);
                 }
-
+*/
             }
             $disabled = "";
             $cacherConnect = ""; $cacherEnregistre = "";

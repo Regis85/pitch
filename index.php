@@ -5,16 +5,19 @@ require_once('src/controllers/homesaisie.php');
 require_once('src/lib/connect.php');
 require_once('src/lib/change_mdp.php');
 require_once('src/lib/database.php');
+require_once('src/lib/user.php');
 
 use Application\Controllers\Homepage\Homepage;
 use Application\Controllers\Homesaisie\Homesaisie;
 use Application\Lib\Connect\ConnectRepository;
 use Application\Lib\ChangeMdp\ChangeMdp;
 use Application\Lib\Database\DatabaseConnection;
+use Application\Lib\User\User;
 
 // On démarre une nouvelle session
 session_start();
 
+/* *
 $_SESSION['mdp'] = False;
 print_r($_POST);
 echo "<br>=====<br>";
@@ -22,9 +25,11 @@ echo "<br>=====<br>";
 print_r($_GET);
 echo "<br>=====<br>";
 * */
+/* *
 print_r($_SESSION);
 echo "<br>=====<br>";
 // print_r($_FILES);
+* */
 
 if (isset($_GET['saisie']) && $_GET['saisie'] != "")
 {
@@ -73,6 +78,8 @@ if (isset($_GET['saisie']) && $_GET['saisie'] != "")
             if ((new DatabaseConnection())->enregistreDonnees($_POST))
             {
                 $connecte = $connect->connectUser();
+                $user = New User();
+
             }
         }
         $homesaisie = new Homesaisie();
@@ -95,11 +102,11 @@ elseif (isset($_GET['pitch']) && $_GET['pitch'] != "")
 }
 else
 {
+    retourPitchGolf();
     // pour l'instant rien, ensuite Retour à la page de Pitchgolf/parcours
     // header('Location: https://pitchgolf.fr/les-parcours/');
-    echo "Vous devez indiquez un numéro de golf";
-    session_destroy();
-    die();
+    //echo "Vous devez indiquez un numéro de golf";
+    //die();
 }
 
 

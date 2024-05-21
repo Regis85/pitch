@@ -41,8 +41,12 @@
             </p>
 <?php } ?>
             <p class="zoneText" >
+                <a href="https://www.openstreetmap.org/#map=15/<?php echo $pitch["gps"] ?>"
+                        target=_blank"
+                        title="Afficher la carte" >
                     Coordonnées GPS (Lat/long):
                     <?php echo $pitch["gps"] ?>
+                </a>
             </p>
             <p>
                 <span class="zoneText" >

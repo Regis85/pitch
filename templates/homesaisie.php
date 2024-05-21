@@ -63,7 +63,8 @@
             <p>
                 <input type="hidden" name="MAX_FILE_SIZE" value="31457280" />
                 <label for="photo">Photo</label>
-                <input type="file" id="photo" name="photo" accept=".png, .jpg, .jpeg, .jpeg," />
+                <input type="file" id="photo" name="photo" accept=".png, .jpg, .jpeg, .jpeg,"
+                    title="Choisissez une photo représentative de votre Pitch" />
 <?php } ?>
             </p>
             <p>
@@ -79,7 +80,8 @@
             <p>
                 <label for="gps">Coordonnées GPS (Lat/Lon):</label>
                 <input type="text" id="gps" name="gps" size="36"
-                        value="<?= $_SESSION['club']['gps']; ?>" <?= $disabled; ?> />
+                        value="<?= $_SESSION['club']['gps']; ?>" <?= $disabled; ?>
+                        title="Saisissez les coordonnées Lattitude/longitude au format décimales ###.#####" />
             </p>
             <p>
                 <label for="pitch">Pitch & Putt :</label>
@@ -322,7 +324,7 @@
                 <input type="text" id="gerant" name="gerant" size=50
                         value="<?= $_SESSION['club']['dirigeants'][0][1] ?>" />
                 <label for="gerantTel">téléphone : </label>
-                <input type="text" id="gerantTel" name="gerantTel" size=20
+                <input type="tel" id="gerantTel" name="gerantTel" size=20
                         value="<?= $_SESSION['club']['dirigeants'][0][2] ?>" />
                 <label for="gerantCourriel">Courriel :</label>
                 <input type="text" id="gerantCourriel" name="gerantCourriel" size=40
@@ -335,7 +337,7 @@
                 <input type="text" id="presidentAS" name="presidentAS" size=50
                         value="<?= $_SESSION['club']['dirigeants'][1][1] ?>" />
                 <label for="asTel">téléphone : </label>
-                <input type="text" id="asTel" name="asTel" size=20
+                <input type="tel" id="asTel" name="asTel" size=20
                         value="<?= $_SESSION['club']['dirigeants'][1][2] ?>" />
                 <label for="asCourriel">Courriel :</label>
                 <input type="text" id="asCourriel" name="asCourriel" size=40
@@ -348,7 +350,7 @@
                 <input type="text" id="cppf" name="cppf" size=50
                         value="<?= $_SESSION['club']['dirigeants'][2][1] ?>" />
                 <label for="cppfTel">téléphone : </label>
-                <input type="text" id="cppfTel" name="cppfTel" size=20
+                <input type="tel" id="cppfTel" name="cppfTel" size=20
                         value="<?= $_SESSION['club']['dirigeants'][2][2] ?>" />
                 <label for="cppfCourriel">Courriel :</label>
                 <input type="text" id="cppfCourriel" name="cppfCourriel" size=40
