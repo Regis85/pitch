@@ -40,6 +40,32 @@ body {
     color: white;
 }
 
-#contenu {
-    margin-top: 4em;
+#selection {
+    position: fixed;
+    top: 3em;
+    width:100%;
+    background: hsla(160, 22%, 95%);
+    display: inline;
+    padding: .5em;
 }
+
+#selection p {
+    display: inline;
+    margin: 0em 1em
+}
+#contenu p {
+    margin-top: 6em;
+}
+
+#identifie  {
+    margin: 4em;
+}
+
+#identifie p {
+    text-align: center;
+}
+
+.rouge {
+    color: red;
+}
+

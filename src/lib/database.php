@@ -58,7 +58,7 @@ class DatabaseConnection
 
     public function chargeDirigeants($idPitch):array
     {
-        // Récupération des données des dirigeants partir de l'identifiant du pitch
+        // Récupération des données des dirigeants à partir de l'identifiant du pitch
         $sql = "SELECT pi.* FROM `prive` as pi
             WHERE pi.status <> ? AND pi.id_golf = ?
             ORDER BY pi.status;";
@@ -194,6 +194,84 @@ class DatabaseConnection
 
         return true;
     }
+
+    public function getLigues($id_ligue = Null): array
+    {
+        // Récupère la liste des ligues
+        try {
+            $sql = "SELECT * FROM `ligues`";
+            if ($id_ligue != Null) { $sql = $sql . " WHERE id = $id_ligue"; }
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute();
+            $results = $sth->fetchall();
+            return $results;
+
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return array();
+        }
+    }
+
+    public function getProvinces($id_ligue = Null, $id_Province = Null)
+    {
+        // Récupère la liste des provinces
+        try {
+            $sql = "SELECT * FROM `provinces`";
+            if ($id_ligue != Null) { $sql = $sql . " WHERE id_ligue = $id_ligue"; }
+            if ($id_Province != Null) { $sql = $sql . " AND id = $id_Province"; }
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute();
+            $results = $sth->fetchall();
+            return $results;
+
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return array();
+        }
+    }
+
+    public function getDepartements($id_ligue = Null, $id_Province = Null, $id_departement = Null): array
+    {
+        // Récupère la liste des départements
+        try {
+            $sql = "SELECT * FROM `departements`";
+            if ($id_ligue != Null) { $sql = $sql . " WHERE id_ligue = $id_ligue"; }
+            if ($id_Province != Null) { $sql = $sql . " AND id = $id_Province"; }
+            if ($id_departement != Null) { $sql = $sql . " AND id = $id_departement"; }
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute();
+            $results = $sth->fetchall();
+            return $results;
+
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return array();
+        }
+    }
+
+
+    public function getDepartement($id_departement): array
+    {
+        // Récupère la liste des départements
+        try {
+            // $sql = "SELECT * FROM `departements` WHERE id = $id_departement";
+            $sql = "SELECT d.*, p.* FROM `departements` as d LEFT JOIN
+                (SELECT pr.id as idprovince, pr.nom as nom_province,
+                        li.id as id_ligue, li.nom as nom_ligue FROM `provinces` as pr
+                    LEFT JOIN `ligues` as li ON pr.id_ligue =  li.id) as p
+                    ON p.idprovince = d.id_province WHERE d.id = $id_departement";
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute();
+            $results = $sth->fetch();
+            return $results;
+
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return array();
+        }
+    }
+
+
 
 }
 

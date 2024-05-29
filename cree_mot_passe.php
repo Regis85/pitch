@@ -1,3 +1,3 @@
 <?php
-$mdp = "laurent";
+$mdp = "regis";
 echo password_hash($mdp, PASSWORD_DEFAULT); ?>
