@@ -19,34 +19,9 @@ class Adminpage
         // On charge les données pour le menu
         if (isset($_POST['soumettre']) && $_POST['soumettre'] == 'select'
                     && isset($_SESSION['lastSelection'])) {
-            // On a déjà afficher une page, on sélectionne ce qu'on affiche
-            // Le département à changé, on récupère sa province et sa ligue
-            if ($_POST['selectDepartement'] != $_SESSION['lastSelection']['departement']) {
-echo "<br> changement de département : on met à jour le département, la province et la ligue <br>";
-echo $_POST['selectDepartement'] . " != " .$_SESSION['lastSelection']['departement'] . "<br>";
-                $departementActif = $_POST['selectDepartement'];
-                $_SESSION['lastSelection']['departement'] = $_POST['selectDepartement'];
-                // mettre à jour la province active
-
-                // mettre à jour la ligue active
-
-
-            // La province a changée, on récupère sa ligue, on efface le département sélectionné
-            } elseif ($_POST['selectProvince'] != $_SESSION['lastSelection']['province']) {
-echo "<br> changement de province : on met à jour la province et la ligue <br>";
-                $provinceActive = $_POST['selectProvince'];
-                $_SESSION['lastSelection']['province'] = $_POST['selectProvince'];
-                // il n'y a plus de département actif
-                $departementActif = Null;
-                // On récupère les départements de la province
-
-                // mettre à jour la ligue active
-                $ligueActive = $this->getLigueActive($_POST['selectProvince']);
-
-
             // La ligue a changée, on efface la province sélectionnée et le département sélectionné
-            } elseif ($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']) {
-echo "<br> changement de ligue : on met à jour les provinces et les départements <br>";
+            // On a déjà afficher une page, on sélectionne ce qu'on affiche
+            if($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']) {
                 $ligueActive = $_POST['selectLigue'];
                 $ligues = $this->afficheLigue($ligueActive);
 
@@ -57,11 +32,42 @@ echo "<br> changement de ligue : on met à jour les provinces et les départemen
                 // il n'y a plus de province active
                 $provinceActive = Null;
                 // On récupère les provinces de la ligue
-                $provinces = $this->getProvincesByLigue($ligueActive);
+                if ($ligueActive) {
+                    $provinces = $this->getProvincesByLigue($ligueActive);
+                } else {
+                    $provinces = $this->connexion->getProvinces();
+                }
 
                 // On récupère les départements de la ligue
-                $departements = $this->getDepartementsByLigue($ligueActive);
+                if ($ligueActive) {
+                    $departements = $this->getDepartementsByLigue($ligueActive);
+                } else {
+                    $departements = $this->connexion->getDepartements();
+                }
 
+            // La province a changée, on récupère sa ligue, on efface le département sélectionné
+            } elseif ($_POST['selectProvince'] != $_SESSION['lastSelection']['province']) {
+echo "<br> changement de province : on met à jour la province et la ligue <br>" . print_r($_POST) . "<br>";
+echo $_POST['selectProvince'] . " != " .$_SESSION['lastSelection']['province'] . "<br>";
+                $provinceActive = $_POST['selectProvince'];
+                $_SESSION['lastSelection']['province'] = $_POST['selectProvince'];
+                // il n'y a plus de département actif
+                $departementActif = Null;
+                // On récupère les départements de la province
+
+                // mettre à jour la ligue active
+                $ligueActive = $this->getLigueActive($_POST['selectProvince']);
+
+
+            // Le département à changé, on récupère sa province et sa ligue
+            } elseif ($_POST['selectDepartement'] != $_SESSION['lastSelection']['departement']) {
+echo "<br> changement de département : on met à jour le département, la province et la ligue <br>";
+echo $_POST['selectDepartement'] . " != " .$_SESSION['lastSelection']['departement'] . "<br>";
+                $departementActif = $_POST['selectDepartement'];
+                $_SESSION['lastSelection']['departement'] = $_POST['selectDepartement'];
+                // mettre à jour la province active
+
+                // mettre à jour la ligue active
 
 
             }
@@ -194,6 +200,7 @@ echo "<br> changement de ligue : on met à jour les provinces et les départemen
     {
         $con = new DatabaseConnection();
         $sql = "SELECT * FROM `provinces` WHERE `id_ligue` = ? ";
+echo "SELECT * FROM `provinces` WHERE `id_ligue` = $ligue ";
         $donnees = [$ligue];
 
         try {
