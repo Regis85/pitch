@@ -216,8 +216,8 @@ class DatabaseConnection
     {
         // Récupère la liste des provinces
         try {
-            $sql = "SELECT * FROM `provinces`";
-            if ($id_ligue != Null) { $sql = $sql . " WHERE id_ligue = $id_ligue"; }
+            $sql = "SELECT * FROM `provinces` WHERE 1";
+            if ($id_ligue != Null) { $sql = $sql . " AND id_ligue = $id_ligue"; }
             if ($id_Province != Null) { $sql = $sql . " AND id = $id_Province"; }
             $sth = $this->getConnection()->prepare($sql);
             $sth->execute();
@@ -234,8 +234,7 @@ class DatabaseConnection
     {
         // Récupère la liste des départements
         try {
-            $sql = "SELECT * FROM `departements`";
-            if ($id_ligue != Null) { $sql = $sql . " WHERE id_ligue = $id_ligue"; }
+            $sql = "SELECT * FROM `departements` WHERE 1";
             if ($id_Province != Null) { $sql = $sql . " AND id = $id_Province"; }
             if ($id_departement != Null) { $sql = $sql . " AND id = $id_departement"; }
             $sth = $this->getConnection()->prepare($sql);

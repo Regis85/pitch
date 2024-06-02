@@ -17,22 +17,28 @@
             <!-- formulaire pour se déconnecter -->
         </form>
         <form id='selection' method="POST">
+<p><?= $ligueActive ?></p>
             <p>
                 Ligue :
                 <select name="selectLigue" id="selectLigue">
-<?php if (count($ligues) > 1) { ?>
+<?php if ($ligues && count($ligues) > 1) { ?>
                     <option value="">-</option>
 <?php } ?>
 <?php foreach($ligues as $ligue) {
     echo $ligue['id'] ; ?>
-                    <option value=<?= $ligue['id'] ?>><?= $ligue['nom'] ?></option>
+                    <option value=<?= $ligue['id'] ?>
+                        <?php if ($ligueActive && $ligue['id'] == $ligueActive) { ?>
+                            selected
+                        <?php } ?> >
+                        <?= $ligue['nom'] ?>
+                    </option>
 <?php } ?>
                 </select>
             </p>
             <p>
                 Province :
                 <select name="selectProvince" id="selectProvince">
-<?php if (count($provinces) > 1) { ?>
+<?php if ($provinces && count($provinces) > 1) { ?>
                     <option value="">-</option>
 <?php } ?>
 <?php foreach($provinces as $province) { ?>
@@ -42,13 +48,12 @@
             </p>
             <p>Département
                 <select name="selectDepartement" id="selectDepartement">
-<?php if (count($departements) > 1) { ?>
+<?php if ($departements && count($departements) > 1) { ?>
                     <option value="">-</option>
 <?php } ?>
 <?php foreach($departements as $departement) { ?>
                     <option value=<?= $departement['id'] ?>><?= $departement['nom'] ?></option>
 <?php } ?>
-                    <option value="">-</option>
                 </select>
             </p>
             <p><button name="soumettre" value="select">Sélectionner</button></p>
@@ -62,12 +67,9 @@
             <p>
 <?php
     print_r($_POST);
+    echo "<br><br>";
+    print_r($_SESSION);
     echo "<br>";
-?>
-<?php
-    for ($i=1;$i<80;$i++) {
-        echo $i . "<br>";
-    }
 ?>
             </p>
         </div>

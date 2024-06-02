@@ -18,7 +18,7 @@
 <?php } ?>
         <input type='hidden' id='identifie' name='identifie' value=True />
         <p class='titre rouge'>
-            Saisissez vos identifiant
+            Saisissez vos identifiants
         </p>
         <p>
             <label for='identifiant' >Identifiant : </label>
@@ -26,10 +26,10 @@
         </p>
         <p>
             <label for='mdp' >Mot de passe : </label>
-            <input type='text' id='mdp' name='mdp' />
+            <input type='password' id='mdp' name='mdp' />
         </p>
         <p>
-            <button type="submit" value="Submit">Soumettre</button>
+            <button type="submit" name="Submit" value="Submit" >Soumettre</button>
         </p>
     </form>
 
