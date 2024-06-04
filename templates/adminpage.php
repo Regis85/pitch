@@ -24,8 +24,7 @@
 <?php if ($ligues && count($ligues) > 1) { ?>
                     <option value="">-</option>
 <?php } ?>
-<?php foreach($ligues as $ligue) {
-    echo $ligue['id'] ; ?>
+<?php foreach($ligues as $ligue) { ?>
                     <option value=<?= $ligue['id'] ?>
                         <?php if ($ligueActive && $ligue['id'] == $ligueActive) { ?>
                             selected
@@ -42,7 +41,12 @@
                     <option value="">-</option>
 <?php } ?>
 <?php foreach($provinces as $province) { ?>
-                    <option value=<?= $province['id'] ?>><?= $province['nom'] ?></option>
+                    <option value=<?= $province['id'] ?>
+                        <?php if ($provinceActive && $province['id'] == $provinceActive) { ?>
+                            selected
+                        <?php } ?> >
+                        <?= $province['nom'] ?>
+                    </option>
 <?php } ?>
                 </select>
             </p>

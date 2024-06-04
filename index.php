@@ -17,19 +17,6 @@ use Application\Lib\User\User;
 // On démarre une nouvelle session
 session_start();
 
-/* *
-$_SESSION['mdp'] = False;
-print_r($_POST);
-echo "<br>=====<br>";
-/* *
-print_r($_GET);
-echo "<br>=====<br>";
-* */
-/* *
-print_r($_SESSION);
-echo "<br>=====<br>";
-// print_r($_FILES);
-* */
 
 if (isset($_GET['saisie']) && $_GET['saisie'] != "")
 {
@@ -103,10 +90,6 @@ elseif (isset($_GET['pitch']) && $_GET['pitch'] != "")
 else
 {
     retourPitchGolf();
-    // pour l'instant rien, ensuite Retour à la page de Pitchgolf/parcours
-    // header('Location: https://pitchgolf.fr/les-parcours/');
-    //echo "Vous devez indiquez un numéro de golf";
-    //die();
 }
 
 
