@@ -9,6 +9,11 @@ class Adminpage
 {
     public DatabaseConnection $connexion;
 
+    public function identifie()
+    {
+        require_once('templates/adminIdentifie.php');
+    }
+
     public function execute()
     {
         $this->connexion = new DatabaseConnection();
@@ -21,7 +26,7 @@ class Adminpage
                     && isset($_SESSION['lastSelection'])) {
             /*===== On a déjà afficher une page, on sélectionne ce qu'on affiche =====*/
 
-            // La ligue a changée, on efface la province sélectionnée et le département sélectionné
+            //----- La ligue a changée, on efface la province sélectionnée et le département sélectionné
             if($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']) {
                 $ligueActive = $_POST['selectLigue'];
                 $ligues = $this->afficheLigue($ligueActive);
@@ -36,7 +41,7 @@ class Adminpage
                 if ($ligueActive) {
                     $provinces = $this->getProvincesByLigue($ligueActive);
                 } else {
-                    $provinces = $this->getDepartementByProvince($provinceActive);
+                    $provinces = $this->connexion->getProvinces($ligueActive);
                 }
 
                 // On récupère les départements de la ligue
@@ -46,13 +51,15 @@ class Adminpage
                     $departements = $this->connexion->getDepartements();
                 }
 
-            // La province a changée, on récupère sa ligue, on efface le département sélectionné
+            //----- La province a changée, on récupère sa ligue, on efface le département sélectionné
             } elseif ($_POST['selectProvince'] != $_SESSION['lastSelection']['province']) {
 
                 $provinceActive = $_POST['selectProvince'];
 
                 // mettre à jour la ligue active
-                $ligueActive = $this->getLigueByDepartement($_POST['selectProvince'])['id_ligue'];
+                if ($provinceActive) {
+                    $ligueActive = $this->getLigueByDepartement($_POST['selectProvince'])['id_ligue'];
+                }
 
                 $_SESSION['lastSelection']['province'] = $_POST['selectProvince'];
 
@@ -64,18 +71,28 @@ class Adminpage
                 $provinces = $this->connexion->getProvinces($ligueActive);
                 $departements =  $this->getDepartementByProvince($provinceActive);
 
-
-            // Le département à changé, on récupère sa province et sa ligue
+            //----- Le département à changé, on récupère sa province et sa ligue
             } elseif ($_POST['selectDepartement'] != $_SESSION['lastSelection']['departement']) {
-echo "<br> changement de département : on met à jour le département, la province et la ligue <br>";
-echo $_POST['selectDepartement'] . " != " .$_SESSION['lastSelection']['departement'] . "<br>";
+
+                // On met à jour le département actif
                 $departementActif = $_POST['selectDepartement'];
-                $_SESSION['lastSelection']['departement'] = $_POST['selectDepartement'];
+                $_SESSION['lastSelection']['departement'] = $departementActif;
+
                 // mettre à jour la province active
+                $provinceActive = $this->getProvinceByDepartement($departementActif)['id_province'];
+                $_SESSION['lastSelection']['province'] = $provinceActive;
 
                 // mettre à jour la ligue active
+                $ligueActive = $this->getLigueByDepartement($departementActif)['id_ligue'];
+                $_SESSION['lastSelection']['ligue'] = $ligueActive;
 
+                /*===== On récupère les données du menu =====*/
+                $ligues = $this->afficheLigue();
+                $provinces = $this->connexion->getProvinces($ligueActive);
+                $departements =  $this->getDepartementByProvince($provinceActive);
 
+            } else {
+                die("adminpage.php : il faut gérer ce cas");
             }
 
         } else {
@@ -90,14 +107,6 @@ echo $_POST['selectDepartement'] . " != " .$_SESSION['lastSelection']['departeme
             $provinces = $this->connexion->getProvinces($ligueActive);
             $departements =  $this->connexion->getDepartements($ligueActive, $provinceActive, $departementActif);
         }
-
-        /*===== On récupère les données du menu =====*/
-        /*
-        $ligues = $this->afficheLigue($ligueActive);
-        $provinces = $this->connexion->getProvinces($ligueActive, $provinceActive);
-        $departements =  $this->connexion->getDepartements($ligueActive, $provinceActive, $departementActif);
-        * */
-
         /*===== On récupère les données du pitch =====*/
 
         /*===== On affiche les données =====*/
@@ -120,9 +129,6 @@ echo $_POST['selectDepartement'] . " != " .$_SESSION['lastSelection']['departeme
             return false;
         }
 
-
-
-
     }
 
     public function afficheDepartement($id_departement)
@@ -138,11 +144,6 @@ echo $_POST['selectDepartement'] . " != " .$_SESSION['lastSelection']['departeme
         /*===== On affiche les données =====*/
         require_once('templates/adminpage.php');
 
-    }
-
-    public function identifie()
-    {
-        require_once('templates/adminIdentifie.php');
     }
 
     public function verifieMdp($identifiant, $motDePasse): Bool
@@ -204,7 +205,6 @@ echo $_POST['selectDepartement'] . " != " .$_SESSION['lastSelection']['departeme
     {
         $con = new DatabaseConnection();
         $sql = "SELECT * FROM `provinces` WHERE `id_ligue` = ? ";
-echo "SELECT * FROM `provinces` WHERE `id_ligue` = $ligue ";
         $donnees = [$ligue];
 
         try {
@@ -240,7 +240,11 @@ echo "SELECT * FROM `provinces` WHERE `id_ligue` = $ligue ";
     protected function getLigueByDepartement($province): array
     {
         $con = new DatabaseConnection();
-        $sql = "SELECT `id_ligue` FROM `provinces` WHERE `id` = ? ";
+
+        $sql = "SELECT p.`id_ligue` FROM `provinces` as p LEFT JOIN
+                    (SELECT `id_province`, `id` FROM `departements` ) as d
+                    ON d.id_province = p.id
+                    WHERE d.`id` = ?; ";
         $donnees = [$province];
 
         try {
@@ -264,7 +268,6 @@ echo "SELECT * FROM `provinces` WHERE `id_ligue` = $ligue ";
             $sth = $con->getConnection()->prepare($sql);
             $sth->execute($donnees);
             $result = $sth->fetchall();
-            print_r($result);
             return $result;
         } catch(PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
@@ -272,6 +275,22 @@ echo "SELECT * FROM `provinces` WHERE `id_ligue` = $ligue ";
         }
     }
 
+    protected function getProvinceByDepartement($departement): array
+    {
+        $con = new DatabaseConnection();
+        $sql = "SELECT `id_province` FROM `departements` WHERE `id` = ?; ";
+        $donnees = [$departement];
+
+        try {
+            $sth = $con->getConnection()->prepare($sql);
+            $sth->execute($donnees);
+            $result = $sth->fetch();
+            return $result;
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return false;
+        }
+    }
 
 }
 

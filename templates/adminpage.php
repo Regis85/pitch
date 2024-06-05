@@ -38,7 +38,9 @@
                 Province :
                 <select name="selectProvince" id="selectProvince">
 <?php if ($provinces && count($provinces) > 1) { ?>
+<?php   if (!$provinceActive) { ?>
                     <option value="">-</option>
+<?php   } ?>
 <?php } ?>
 <?php foreach($provinces as $province) { ?>
                     <option value=<?= $province['id'] ?>
@@ -53,10 +55,17 @@
             <p>Département
                 <select name="selectDepartement" id="selectDepartement">
 <?php if ($departements && count($departements) > 1) { ?>
+<?php   if (!$departementActif) { ?>
                     <option value="">-</option>
+<?php   } ?>
 <?php } ?>
 <?php foreach($departements as $departement) { ?>
-                    <option value=<?= $departement['id'] ?>><?= $departement['nom'] ?></option>
+                    <option value=<?= $departement['id'] ?>
+                        <?php if ($departementActif && $departement['id'] == $departementActif) { ?>
+                            selected
+                        <?php } ?> >
+                        <?= $departement['nom'] ?>
+                    </option>
 <?php } ?>
                 </select>
             </p>
