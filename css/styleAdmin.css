@@ -6,6 +6,26 @@ body {
     font-family: serif;
 }
 
+thead {
+    background-color: #a3e4d7 ;
+}
+
+td, th {
+    margin-left: .5em;
+    padding-left: .5em;
+    margin-right: .5em;
+    padding-right: .5em;
+}
+
+
+tbody tr:nth-child(odd) {
+  background-color: #fff1f1;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #c7baba;
+}
+
 #entete {
     text-align: center;
     position: fixed;
@@ -67,5 +87,9 @@ body {
 
 .rouge {
     color: red;
+}
+
+#contenu {
+    margin-top: 6em;
 }
 

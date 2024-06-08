@@ -8,16 +8,14 @@
 
 <?php ob_start(); ?>
         <ul id='menu'>
-            <li><a href="#?cree">Créer</a></li>
-            <li><a href="#?affiche">Afficher</a></li>
+            <li><a href="#?cree">Nouveau</a></li>
             <li><a href="#?modifie">Modifier</a></li>
-            <li><a href="#?suivre">Suivre</a></li>
         </ul>
         <form id='deconnecte' method="POST" >
             <!-- formulaire pour se déconnecter -->
+            <!-- le bouton est plus bas -->
         </form>
         <form id='selection' method="POST">
-<p><?= $ligueActive ?></p>
             <p>
                 Ligue :
                 <select name="selectLigue" id="selectLigue">
@@ -77,14 +75,38 @@
 
 <?php ob_start(); ?>
         <div id='contenu'>
-            <p>
-<?php
-    print_r($_POST);
-    echo "<br><br>";
-    print_r($_SESSION);
-    echo "<br>";
-?>
-            </p>
+            <table id='pitchs'>
+                <thead>
+                    <tr>
+                        <th>Identifiant</th>
+                        <th>Nom</th>
+                        <th>Courriel</th>
+                        <th>gps Lat/long</th>
+                        <th>Site Web</th>
+                        <th>Département</th>
+                    </tr>
+                </thead>
+                <tbody>
+<?php foreach ($pitchs as $pitch) { ?>
+                    <tr>
+                        <td><?= $pitch['identifiant'] ?></td>
+                        <td><?= $pitch['nom'] ?></td>
+                        <td><?= $pitch['courriel'] ?></td>
+                        <td><?= $pitch['gps'] ?></td>
+                        <td>
+                            <a href="<?= $pitch['siteWeb'] ?>" target = "_blanc">
+                                <?= $pitch['siteWeb'] ?>
+                            </a>
+                        </td>
+                        <td><?= $pitch['departement'] ?></td>
+                    </tr>
+
+<?php } ?>
+                </tbody>
+
+            </table>
+
+
         </div>
 <?php $content = ob_get_clean(); ?>
 
