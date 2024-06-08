@@ -24,54 +24,101 @@ class Adminpage
         // On charge les données pour le menu
         if (isset($_POST['soumettre']) && $_POST['soumettre'] == 'select'
                     && isset($_SESSION['lastSelection'])) {
-            /*===== On a déjà afficher une page, on sélectionne ce qu'on affiche =====*/
-
-            //----- La ligue a changée, on efface la province sélectionnée et le département sélectionné
-            if($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']) {
+            /*===== On a déjà afficher une page, on sélectionne l'affiche des menus =====*/
+            if($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']
+                AND ($_POST['selectProvince'] == ""
+                    OR $_POST['selectProvince'] == $_SESSION['lastSelection']['province'])
+                AND ($_POST['selectDepartement'] == ""
+                    OR $_POST['selectDepartement'] == $_SESSION['lastSelection']['departement'])
+                ) {
+                //===== Seule la ligue est passée ou a changée =====
                 $ligueActive = $_POST['selectLigue'];
+                $_SESSION['lastSelection']['ligue'] = $_POST['selectLigue'];
                 $ligues = $this->afficheLigue($ligueActive);
 
-                $_SESSION['lastSelection']['ligue'] = $_POST['selectLigue'];
-
-                // il n'y a plus de département actif
-                $departementActif = Null;
                 // il n'y a plus de province active
                 $provinceActive = Null;
-                // On récupère les provinces de la ligue
+                // il n'y a plus de département actif
+                $departementActif = Null;
+
+                // On récupère les provinces et les départements de la ligue
                 if ($ligueActive) {
                     $provinces = $this->getProvincesByLigue($ligueActive);
-                } else {
-                    $provinces = $this->connexion->getProvinces($ligueActive);
-                }
-
-                // On récupère les départements de la ligue
-                if ($ligueActive) {
                     $departements = $this->getDepartementsByLigue($ligueActive);
                 } else {
+                    $provinces = $this->connexion->getProvinces();
                     $departements = $this->connexion->getDepartements();
                 }
 
-            //----- La province a changée, on récupère sa ligue, on efface le département sélectionné
-            } elseif ($_POST['selectProvince'] != $_SESSION['lastSelection']['province']) {
-
+            } elseif ($_POST['selectProvince'] != $_SESSION['lastSelection']['province']
+                AND ($_POST['selectLigue'] == ""
+                    OR $_POST['selectLigue'] == $_SESSION['lastSelection']['ligue'])
+                AND ($_POST['selectDepartement'] == ""
+                    OR $_POST['selectDepartement'] == $_SESSION['lastSelection']['departement'])
+                ) {
+                //===== Seule la province est passée ou a changé =====
                 $provinceActive = $_POST['selectProvince'];
+                $_SESSION['lastSelection']['province'] = $provinceActive;
 
                 // mettre à jour la ligue active
                 if ($provinceActive) {
-                    $ligueActive = $this->getLigueByDepartement($_POST['selectProvince'])['id_ligue'];
+                    $ligueActive = $this->getLigueByProvince($_POST['selectProvince'])['id_ligue'];
+                    $_SESSION['lastSelection']['ligue'] = $ligueActive;
                 }
-
-                $_SESSION['lastSelection']['province'] = $_POST['selectProvince'];
 
                 // il n'y a plus de département actif
                 $departementActif = Null;
 
-                /*===== On récupère les données du menu =====*/
+                /*----- On récupère les données du menu -----*/
                 $ligues = $this->afficheLigue();
                 $provinces = $this->connexion->getProvinces($ligueActive);
-                $departements =  $this->getDepartementByProvince($provinceActive);
+                $departements =  $this->getDepartementsByProvince($provinceActive);
+
+            } elseif ($_POST['selectDepartement'] != $_SESSION['lastSelection']['departement']
+                AND ($_POST['selectLigue'] == ""
+                    OR $_POST['selectLigue'] == $_SESSION['lastSelection']['ligue'])
+                AND ($_POST['selectProvince'] == ""
+                    OR $_POST['selectProvince'] == $_SESSION['lastSelection']['province'])
+                ) {
+                // ===== Seule le département est passé ou a changé =====
+                $departementActif = $_POST['selectDepartement'];
+                $_SESSION['lastSelection']['departement'] = $departementActif;
+                // mettre à jour la province et la ligue actives
+                if ($departementActif) {
+                    $provinceActive = $this->getProvinceByDepartement($departementActif)['id_province'];
+                    $_SESSION['lastSelection']['province'] = $provinceActive;
+                    echo "provinceActive :<br>" . $provinceActive;
+                    $ligueActive = $this->getLigueByProvince($provinceActive)['id_ligue'];
+                    $_SESSION['lastSelection']['ligue'] = $ligueActive;
+                }
+
+                /*----- On récupère les données du menu -----*/
+                $ligues = $this->afficheLigue();
+                $provinces = $this->connexion->getProvinces($ligueActive);
+                $departements =  $this->getDepartementsByProvince($provinceActive);
+
+                // mettre à jour la ligue active
+
+
+
+
+            // ligue + province
+                // privilégier la ligue au besoin mettre à jour la province active
+
+
+
+
+
+            // ligue + département
+                // privilégier la ligue au besoin mettre à jour le département actif et sa province
+            // province + département
+                // privilégier la province au besoin mettre à jour le département actif et la ligue
+            // ligue + province + departement
+                // privilégier la ligue puis la province puis le département
+
 
             //----- Le département à changé, on récupère sa province et sa ligue
+            /*
             } elseif ($_POST['selectDepartement'] != $_SESSION['lastSelection']['departement']) {
 
                 // On met à jour le département actif
@@ -87,12 +134,17 @@ class Adminpage
                 $_SESSION['lastSelection']['ligue'] = $ligueActive;
 
                 /*===== On récupère les données du menu =====*/
+            /*
                 $ligues = $this->afficheLigue();
                 $provinces = $this->connexion->getProvinces($ligueActive);
                 $departements =  $this->getDepartementByProvince($provinceActive);
+            */
 
             } else {
-                die("adminpage.php : il faut gérer ce cas");
+                print_r($_POST);
+                echo "<br>";
+                print_r($_SESSION);
+                die("<br>adminpage.php : il faut gérer ce cas");
             }
 
         } else {
@@ -171,7 +223,6 @@ class Adminpage
                 return False;
             }
         }
-
     }
 
     protected function erreurMdp()
@@ -183,7 +234,7 @@ class Adminpage
 
     }
 
-    protected function getLigueActive($province): int
+    protected function getLigueByProvince($province): array
     {
         $con = new DatabaseConnection();
         $sql = "SELECT `id_ligue` FROM `provinces` WHERE id = ? ";
@@ -258,7 +309,7 @@ class Adminpage
         }
     }
 
-    protected function getDepartementByProvince($province): array
+    protected function getDepartementsByProvince($province): array
     {
         $con = new DatabaseConnection();
         $sql = "SELECT * FROM `departements` WHERE id_province = ?; ";
