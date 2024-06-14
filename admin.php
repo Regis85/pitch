@@ -11,16 +11,21 @@ session_start();
 $adminpage = new Adminpage();
 $creepage = new Creepage();
 
+print_r($_POST);
 /*
 print_r($_GET);
 echo "<br> SESSION <br>";
 print_r($_SESSION);
 * */
 
-if (isset($_GET['action']) && $_GET['action'] == "cree" && $_SESSION['identifie']) {
-        // On crée un nouveau club
+if (isset($_POST['cree']) && $_POST['cree'] == "nouveau" && $_SESSION['identifie']) {
+    // On crée un nouveau club
 // echo "<br>on crée un nouveau club<br>";
-        $creepage->execute();
+    $creepage->execute();
+
+} elseif (isset($_POST['cree']) && $_POST['cree'] == "sauve" && $_SESSION['identifie']) {
+    // On crée un nouveau pitch
+    $adminpage->sauvePitch();
 
 
 } elseif (isset($_POST['soumettre']) && $_POST['soumettre'] === 'deconnecte') {

@@ -97,11 +97,11 @@ tbody tr:nth-child(even) {
     margin-top: 6em;
 }
 
-#cree li {
+#cree li, #menu li {
     padding: .1em;
 }
 
-#cree button {
+#cree button, #menu button {
     font-weight: bold;
     font-size: large;
     font-family: serif;
@@ -110,3 +110,28 @@ tbody tr:nth-child(even) {
     border: none;
     cursor: pointer;
 }
+
+#pitch  {
+    margin-top: 4em;
+}
+
+#pitch form {
+    margin: 1em;
+}
+
+#pitch ul {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#pitch p {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.champLarge {
+    min-width: 35em;
+}
+

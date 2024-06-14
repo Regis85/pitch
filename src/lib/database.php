@@ -270,6 +270,39 @@ class DatabaseConnection
         }
     }
 
+    public function sauvePitch($pitch): bool
+    {
+        // Récupère la liste des départements
+        try {
+            $sql = "INSERT INTO `pitch`
+                (`identifiant`, `nom`, `motDePasse`, `courriel`, `gps`, `siteWeb`, `departement`)
+                VALUES (?, ?, ?, ?, ?, ?, ?,)
+                ON DUPLICATE KEY
+                SET `nom` = ?, `motDePasse` = ?, `courriel` = ?, `gps` = ?, `siteWeb` = ?, `departement` = ?";
+            //$envoi =
+
+            return True;
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return False;
+        }
+
+    }
+
+    public function getIdDepartement($codeDepartement): int
+    {
+        try {
+            $sql = "SELECT `id` FROM `departements` WHERE `code` = ?";
+            $donnees = [$codeDepartement];
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute($donnees);
+            $results = $sth->fetch();
+            return $results['id'];
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return 0;
+        }
+    }
 
 
 }

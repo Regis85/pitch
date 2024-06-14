@@ -26,7 +26,7 @@ class Adminpage
             /*===== On a déjà afficher une page, on sélectionne l'affiche des menus =====*/
 // echo "<br>";
 // print_r($_SESSION['lastSelection']);
-// TODO : lastSelection contient le numéro d'affichage et pas le numéro de département ou de province
+// TODO : La sélection ne fonctionne pas
 
             if($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']) {
                 //===== La ligue est passée ou a changée =====
@@ -259,7 +259,7 @@ class Adminpage
         }
     }
 
-    protected function getLigueByDepartement($province): array
+    protected function getLigueByDepartement($departement): array
     {
         $con = new DatabaseConnection();
 
@@ -267,7 +267,8 @@ class Adminpage
                     (SELECT `id_province`, `id` FROM `departements` ) as d
                     ON d.id_province = p.id
                     WHERE d.`id` = ?; ";
-        $donnees = [$province];
+        $donnees = [$departement];
+        echo '<br>' . $sql . '<br>' . $donnees[0];
 
         try {
             $sth = $con->getConnection()->prepare($sql);
@@ -358,5 +359,46 @@ class Adminpage
         }
     }
 
+    public function sauvePitch() {
+        $codeDepartement = $_POST['selectDepartement'];
+        $codePitch = $this->getCodesPitch($codeDepartement);
+
+        echo "<br><br>code pitch : " . $codePitch;
+
+
+
+
+    }
+
+    protected function getCodesPitch($codeDepartement): String
+    {
+        // ----- On détermine le code du pitch à partir de son département
+        $con = new DatabaseConnection();
+        // On récupère la ligue
+        $idDepartement = $con->getIdDepartement($codeDepartement);
+        $codeLigue = $this->getLigueByDepartement($idDepartement)['id_ligue'];
+        $ligue = substr("00" . $codeLigue, -2);
+
+        // On détermine le début du code
+        $code = 'FR' . $ligue . $codeDepartement;
+
+        // On récupère le dernier code pour ajouter 1
+        $sql = "SELECT SUBSTR(MAX(`identifiant`), 7) as nb FROM `pitch` WHERE `identifiant` LIKE ?";
+        $codeDonnees = $code . "%";
+        $donnees = [$codeDonnees];
+
+        try {
+            $sth = $con->getConnection()->prepare($sql);
+            $sth->execute($donnees);
+            $result = substr('0' . strval(intval($sth->fetch()['nb']) + 1), -2);
+            $code = $code . $result;
+            return $code;
+
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            die;
+        }
+
+    }
 }
 

@@ -7,10 +7,12 @@
 <?php $header = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
+<!--
         <ul id='menu'>
             <li><a href="?action=cree">Nouveau</a></li>
             <li><a href="?action=modifie">Modifier</a></li>
         </ul>
+-->
         <form id='deconnecte' method="POST" >
             <!-- formulaire pour se déconnecter -->
             <!-- le bouton est plus bas -->
@@ -18,7 +20,7 @@
         <form id='selection' method="POST">
             <p>
                 Ligue :
-                <select name="selectLigue" id="selectLigue">
+                <select name="selectLigue" id="selectLigue" >
 <?php if ($ligues && count($ligues) > 1) { ?>
                     <option value="">-</option>
 <?php } ?>
@@ -34,7 +36,7 @@
             </p>
             <p>
                 Province :
-                <select name="selectProvince" id="selectProvince">
+                <select name="selectProvince" id="selectProvince" >
 <?php if ($provinces && count($provinces) > 1) { ?>
 <?php   if (!$provinceActive) { ?>
                     <option value="">-</option>
@@ -51,7 +53,7 @@
                 </select>
             </p>
             <p>Département
-                <select name="selectDepartement" id="selectDepartement">
+                <select name="selectDepartement" id="selectDepartement" >
 <?php if ($departements && count($departements) > 1) { ?>
 <?php   if (!$departementActif) { ?>
                     <option value="">-</option>
@@ -74,6 +76,14 @@
 <?php $nav = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
+
+        <form id='selectionPitch' method="POST">
+
+        <ul id='menu'>
+            <li><button name='cree' value='nouveau' >Nouveau</button></li>
+            <li><button name='cree' value='modifie' >Modifier</button></li>
+        </ul>
+
         <div id='contenu'>
             <table id='pitchs'>
                 <thead>
@@ -110,6 +120,7 @@
 
             </table>
 
+        </form>
 
         </div>
 <?php $content = ob_get_clean(); ?>
