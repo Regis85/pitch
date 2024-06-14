@@ -20,11 +20,13 @@ class Adminpage
         $ligueActive = Null;
         $provinceActive = Null;
         $departementActif = Null;
-
         // On charge les données pour le menu
         if (isset($_POST['soumettre']) && $_POST['soumettre'] == 'select'
                     && isset($_SESSION['lastSelection'])) {
             /*===== On a déjà afficher une page, on sélectionne l'affiche des menus =====*/
+// echo "<br>";
+// print_r($_SESSION['lastSelection']);
+// TODO : lastSelection contient le numéro d'affichage et pas le numéro de département ou de province
 
             if($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']) {
                 //===== La ligue est passée ou a changée =====
@@ -47,7 +49,7 @@ class Adminpage
                 }
 
             } elseif ($_POST['selectProvince'] != $_SESSION['lastSelection']['province']
-                AND ($_POST['selectLigue'] == ""
+                AND ($_POST['selectLigue'] == 0
                     OR $_POST['selectLigue'] == $_SESSION['lastSelection']['ligue'])
                 ) {
                 //===== La province est passée ou a changé mais pas la ligue=====
@@ -69,9 +71,9 @@ class Adminpage
                 $departements =  $this->getDepartementsByProvince($provinceActive);
 
             } elseif ($_POST['selectDepartement'] != $_SESSION['lastSelection']['departement']
-                AND ($_POST['selectLigue'] == ""
+                AND ($_POST['selectLigue'] == 0
                     OR $_POST['selectLigue'] == $_SESSION['lastSelection']['ligue'])
-                AND ($_POST['selectProvince'] == ""
+                AND ($_POST['selectProvince'] == 0
                     OR $_POST['selectProvince'] == $_SESSION['lastSelection']['province'])
                 ) {
                 // ===== Seule le département est passé ou a changé =====
@@ -322,7 +324,7 @@ class Adminpage
 
         if ($departement) {
             // On a un département on s'en sert pour récupérer les pitchs
-            $sql = "SELECT p.*, d.nom FROM `pitch` as p
+            $sql = "SELECT p.* FROM `pitch` as p
                         LEFT JOIN (SELECT `id`, `code`, `nom` FROM `departements`) as d
                         ON d.code = p.departement
                         WHERE d.id = ?; ";

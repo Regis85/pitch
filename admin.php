@@ -1,15 +1,29 @@
 <?php
 
 require_once('src/controllers/adminpage.php');
+require_once('src/controllers/creepage.php');
 
 use Application\Controllers\Adminpage\Adminpage;
+use Application\Controllers\Creepage\Creepage;
 // On démarre une nouvelle session
 session_start();
 
 $adminpage = new Adminpage();
+$creepage = new Creepage();
 
-if (isset($_POST['soumettre']) && $_POST['soumettre'] === 'deconnecte')
-{
+/*
+print_r($_GET);
+echo "<br> SESSION <br>";
+print_r($_SESSION);
+* */
+
+if (isset($_GET['action']) && $_GET['action'] == "cree" && $_SESSION['identifie']) {
+        // On crée un nouveau club
+// echo "<br>on crée un nouveau club<br>";
+        $creepage->execute();
+
+
+} elseif (isset($_POST['soumettre']) && $_POST['soumettre'] === 'deconnecte') {
     // On se déconnecte
     $_SESSION = array();
     $adminpage->identifie();

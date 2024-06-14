@@ -8,8 +8,8 @@
 
 <?php ob_start(); ?>
         <ul id='menu'>
-            <li><a href="#?cree">Nouveau</a></li>
-            <li><a href="#?modifie">Modifier</a></li>
+            <li><a href="?action=cree">Nouveau</a></li>
+            <li><a href="?action=modifie">Modifier</a></li>
         </ul>
         <form id='deconnecte' method="POST" >
             <!-- formulaire pour se déconnecter -->
@@ -84,6 +84,7 @@
                         <th>gps Lat/long</th>
                         <th>Site Web</th>
                         <th>Département</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,6 +100,9 @@
                             </a>
                         </td>
                         <td><?= $pitch['departement'] ?></td>
+                        <td>
+                            <input type='radio' name='id_pitch' value="<?= $pitch['id'] ?>" />
+                        </td>
                     </tr>
 
 <?php } ?>

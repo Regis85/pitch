@@ -55,6 +55,10 @@ tbody tr:nth-child(even) {
     border-radius: 3em 0.5em 0.5em 3em;
 }
 
+#menu li {
+    padding: .2em;
+}
+
 #menu a {
     text-decoration: none;
     color: white;
@@ -93,3 +97,16 @@ tbody tr:nth-child(even) {
     margin-top: 6em;
 }
 
+#cree li {
+    padding: .1em;
+}
+
+#cree button {
+    font-weight: bold;
+    font-size: large;
+    font-family: serif;
+    color: white;
+    background: hsla(80, 90%, 40%, 0);
+    border: none;
+    cursor: pointer;
+}
