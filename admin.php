@@ -25,7 +25,13 @@ if (isset($_POST['cree']) && $_POST['cree'] == "nouveau" && $_SESSION['identifie
 
 } elseif (isset($_POST['cree']) && $_POST['cree'] == "sauve" && $_SESSION['identifie']) {
     // On crée un nouveau pitch
-    $adminpage->sauvePitch();
+    if ($adminpage->sauvePitch()) {
+        echo '<br>On enregistre<br>';
+    } else {
+        $message = "Vous devez indiquer au moins un nom de club";
+        $couleurMessage = "rouge";
+        echo '<br>' . $message . '<br>';
+    }
 
 
 } elseif (isset($_POST['soumettre']) && $_POST['soumettre'] === 'deconnecte') {

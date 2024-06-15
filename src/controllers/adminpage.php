@@ -359,18 +359,53 @@ class Adminpage
         }
     }
 
-    public function sauvePitch() {
-        $codeDepartement = $_POST['selectDepartement'];
-        $codePitch = $this->getCodesPitch($codeDepartement);
+    public function sauvePitch(): Bool
+    {
+        $_SESSION['newPitch'] = [];
 
-        echo "<br><br>code pitch : " . $codePitch;
+        if ($_POST['nom'] AND $_POST['selectDepartement']) {
+
+            $_SESSION['newPitch']['departement'] = $_POST['selectDepartement'];
+            $code = $this->getCodePitch($_SESSION['newPitch']['departement']);
+            $_SESSION['newPitch']['code'] = $code;
+            $_SESSION['newPitch']['nom'] = $_POST['nom'];
+            $_SESSION['newPitch']['telephone'] = $_POST['telephone'];
+            $_SESSION['newPitch']['courriel'] = $_POST['courriel'];
+            $_SESSION['newPitch']['gps'] = $_POST['gps'];
+            $_SESSION['newPitch']['web'] = $_POST['web'];
+            $mdp = $this->creeMdp($code, $_POST['mdp']);
+            $_SESSION['newPitch']['mdp'] = $mdp;
+
+            echo "<br><br>code pitch : " . $_SESSION['newPitch']['code'];
+            echo "<br>département : " . $_SESSION['newPitch']['departement'];
+            echo "<br>nom : " . $_SESSION['newPitch']['nom'];
+            echo "<br>telephone : " . $_SESSION['newPitch']['telephone'];
+            echo "<br>courriel : " . $_SESSION['newPitch']['courriel'];
+            echo "<br>gps : " . $_SESSION['newPitch']['gps'];
+            echo "<br>web : " . $_SESSION['newPitch']['web'];
+            echo "<br>web : " . $_SESSION['newPitch']['mdp'];
 
 
+            return True;
 
+        } else {
+            return False;
+        }
 
     }
 
-    protected function getCodesPitch($codeDepartement): String
+    protected function creeMdp($code, $mdp = Null): String
+    {
+        if (!$mdp) {
+            $mdp = $code;
+        }
+
+        $retour = password_hash($mdp, PASSWORD_DEFAULT);
+
+        return $retour;
+    }
+
+    protected function getCodePitch($codeDepartement): String
     {
         // ----- On détermine le code du pitch à partir de son département
         $con = new DatabaseConnection();
@@ -400,5 +435,6 @@ class Adminpage
         }
 
     }
+
 }
 
