@@ -135,3 +135,17 @@ tbody tr:nth-child(even) {
     min-width: 35em;
 }
 
+.rouge {
+    color: red;
+}
+
+
+.vert {
+    color: green;
+}
+
+.centre {
+    text-align:center;
+}
+
+

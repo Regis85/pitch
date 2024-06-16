@@ -7,12 +7,14 @@
 <?php $header = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
-<!--
-        <ul id='menu'>
-            <li><a href="?action=cree">Nouveau</a></li>
-            <li><a href="?action=modifie">Modifier</a></li>
-        </ul>
--->
+
+<?php if (isset($_SESSION['message']) && $_SESSION['message']['texte']) { ?>
+        <p class="<?= $_SESSION['message']['class']; ?>">
+            <?= $_SESSION['message']['texte']; ?>
+            <?php $_SESSION['message']['texte'] = Null; ?>
+        </p>
+<?php } ?>
+
         <form id='deconnecte' method="POST" >
             <!-- formulaire pour se déconnecter -->
             <!-- le bouton est plus bas -->
@@ -82,6 +84,7 @@
         <ul id='menu'>
             <li><button name='cree' value='nouveau' >Nouveau</button></li>
             <li><button name='cree' value='modifie' >Modifier</button></li>
+            <li><button name='cree' value='supprime' >Supprimer</button></li>
         </ul>
 
         <div id='contenu'>

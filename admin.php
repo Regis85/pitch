@@ -11,7 +11,7 @@ session_start();
 $adminpage = new Adminpage();
 $creepage = new Creepage();
 
-print_r($_POST);
+// print_r($_POST);
 /*
 print_r($_GET);
 echo "<br> SESSION <br>";
@@ -24,15 +24,9 @@ if (isset($_POST['cree']) && $_POST['cree'] == "nouveau" && $_SESSION['identifie
     $creepage->execute();
 
 } elseif (isset($_POST['cree']) && $_POST['cree'] == "sauve" && $_SESSION['identifie']) {
-    // On crée un nouveau pitch
-    if ($adminpage->sauvePitch()) {
-        echo '<br>On enregistre<br>';
-    } else {
-        $message = "Vous devez indiquer au moins un nom de club";
-        $couleurMessage = "rouge";
-        echo '<br>' . $message . '<br>';
-    }
-
+    // On sauve un nouveau pitch
+    $adminpage->sauvePitch();
+    $creepage->execute();
 
 } elseif (isset($_POST['soumettre']) && $_POST['soumettre'] === 'deconnecte') {
     // On se déconnecte

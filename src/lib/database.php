@@ -270,18 +270,38 @@ class DatabaseConnection
         }
     }
 
-    public function sauvePitch($pitch): bool
+    public function sauvePitch(): bool
     {
-        // Récupère la liste des départements
+        // Enregistre un nouveau pitch
         try {
             $sql = "INSERT INTO `pitch`
-                (`identifiant`, `nom`, `motDePasse`, `courriel`, `gps`, `siteWeb`, `departement`)
-                VALUES (?, ?, ?, ?, ?, ?, ?,)
+                (`identifiant`, `nom`, `motDePasse`, `telephone`,
+                    `courriel`, `gps`, `siteWeb`, `departement`)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY
-                SET `nom` = ?, `motDePasse` = ?, `courriel` = ?, `gps` = ?, `siteWeb` = ?, `departement` = ?";
-            //$envoi =
+                UPDATE `nom` = ?, `motDePasse` = ?, `telephone` = ?, `courriel` = ?, `gps` = ?,
+                    `siteWeb` = ?, `departement` = ?";
+            $envoi = array($_SESSION['newPitch']['code']);
+            $envoi[] = $_SESSION['newPitch']['nom'];
+            $envoi[] = $_SESSION['newPitch']['mdp'];
+            $envoi[] = $_SESSION['newPitch']['telephone'];
+            $envoi[] = $_SESSION['newPitch']['courriel'];
+            $envoi[] = $_SESSION['newPitch']['gps'];
+            $envoi[] = $_SESSION['newPitch']['web'];
+            $envoi[] = $_SESSION['newPitch']['departement'];
+            $envoi[] = $_SESSION['newPitch']['nom'];
+            $envoi[] = $_SESSION['newPitch']['mdp'];
+            $envoi[] = $_SESSION['newPitch']['telephone'];
+            $envoi[] = $_SESSION['newPitch']['courriel'];
+            $envoi[] = $_SESSION['newPitch']['gps'];
+            $envoi[] = $_SESSION['newPitch']['web'];
+            $envoi[] = $_SESSION['newPitch']['departement'];
+
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute($envoi);
 
             return True;
+
         } catch(PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
             return False;

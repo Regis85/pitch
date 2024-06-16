@@ -24,9 +24,6 @@ class Adminpage
         if (isset($_POST['soumettre']) && $_POST['soumettre'] == 'select'
                     && isset($_SESSION['lastSelection'])) {
             /*===== On a déjà afficher une page, on sélectionne l'affiche des menus =====*/
-// echo "<br>";
-// print_r($_SESSION['lastSelection']);
-// TODO : La sélection ne fonctionne pas
 
             if($_POST['selectLigue'] != $_SESSION['lastSelection']['ligue']) {
                 //===== La ligue est passée ou a changée =====
@@ -268,7 +265,6 @@ class Adminpage
                     ON d.id_province = p.id
                     WHERE d.`id` = ?; ";
         $donnees = [$departement];
-        echo '<br>' . $sql . '<br>' . $donnees[0];
 
         try {
             $sth = $con->getConnection()->prepare($sql);
@@ -361,6 +357,8 @@ class Adminpage
 
     public function sauvePitch(): Bool
     {
+        $con = new DatabaseConnection();
+
         $_SESSION['newPitch'] = [];
 
         if ($_POST['nom'] AND $_POST['selectDepartement']) {
@@ -376,19 +374,23 @@ class Adminpage
             $mdp = $this->creeMdp($code, $_POST['mdp']);
             $_SESSION['newPitch']['mdp'] = $mdp;
 
-            echo "<br><br>code pitch : " . $_SESSION['newPitch']['code'];
-            echo "<br>département : " . $_SESSION['newPitch']['departement'];
-            echo "<br>nom : " . $_SESSION['newPitch']['nom'];
-            echo "<br>telephone : " . $_SESSION['newPitch']['telephone'];
-            echo "<br>courriel : " . $_SESSION['newPitch']['courriel'];
-            echo "<br>gps : " . $_SESSION['newPitch']['gps'];
-            echo "<br>web : " . $_SESSION['newPitch']['web'];
-            echo "<br>web : " . $_SESSION['newPitch']['mdp'];
+            $_SESSION['lastSelection']['departement'] = $_SESSION['newPitch']['departement'];
+
+            if ($con->sauvePitch()) {
+                $_SESSION['message']['texte'] = "Club : " . $_SESSION['newPitch']['nom'] . " enregistré";
+                $_SESSION['message']['class'] = "vert";
+                return True;
+            } else {
+                $_SESSION['message']['texte'] = "Échec de l'enregistrement de " . $_SESSION['newPitch']['nom'];
+                $_SESSION['message']['class'] = "rouge";
+                return False;
+            }
 
 
-            return True;
 
         } else {
+                $_SESSION['message']['texte'] = "Aucun club enregistré";
+                $_SESSION['message']['class'] = "rouge";
             return False;
         }
 

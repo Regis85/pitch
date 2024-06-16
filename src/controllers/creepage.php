@@ -31,8 +31,8 @@ print_r($_SESSION);
                 //----- Créer un nouveau pitch -----
                 // Récupérer département dans $_SESSION
 
-                $departementActif = isset($_SESSION['lastSelection']['departement']) ? $_SESSION['lastSelection']['departement'] : Null;
-
+                $departementActif = isset($_SESSION['lastSelection']['departement']) ?
+                                            $_SESSION['lastSelection']['departement'] : Null;
                 $departements = $this->connexion->getDepartements();
 
             } elseif ($_POST['cree'] == 'modifie') {
@@ -41,7 +41,9 @@ print_r($_SESSION);
 
             } elseif ($_POST['cree'] == 'sauve') {
                 //-----  Enregistrer les données -----
-                echo "<br> Enregistrement de données";
+                $departementActif = isset($_SESSION['lastSelection']['departement']) ?
+                                            $_SESSION['lastSelection']['departement'] : Null;
+                $departements = $this->connexion->getDepartements();
             } elseif ($_POST['cree'] == 'quitte') {
                 //-----  On quitte sans enregistrer -----
                 echo "<br> On quitte sans enregistrer";

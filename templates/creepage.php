@@ -4,10 +4,19 @@
                 Pitch & Putt
             </h1>
         </div>
+
 <?php $header = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
+
         <div id='pitch'>
+<?php if (isset($_SESSION['message']) && $_SESSION['message']['texte']) { ?>
+            <p class="centre <?= $_SESSION['message']['class']; ?>">
+                <?= $_SESSION['message']['texte']; ?>
+                <?php $_SESSION['message']['texte'] = Null; ?>
+            </p>
+<?php } ?>
+
         <form id='cree' method="POST" >
             <ul id='menu'>
                 <li><button name='cree' value='sauve' >Enregistrer</button></li>
