@@ -14,7 +14,9 @@
             </p>
             <p>
                 <a href="photos/<?= $pitch['image']; ?>" target="_blank" >
-                    <img src="photos/<?= $pitch['image']; ?>" title="Afficher l'image" />
+                    <img src="photos/<?= $pitch['image']; ?>"
+                        title="Afficher l'image"
+                        alt="photo de : <?= $pitch["nom"] ?>" />
                 </a>
             </p>
             <p>

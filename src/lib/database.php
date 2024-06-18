@@ -15,7 +15,7 @@ class DatabaseConnection
             require 'identifiants.php';
 
             try {
-                $this->database = new \PDO("mysql:host=$servername;dbname=$myDB", $username, $password);
+                $this->database = new \PDO("mysql:host=$servername;dbname=$myDB;charset=utf8", $username, $password);
             } catch(PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
