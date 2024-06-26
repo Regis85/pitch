@@ -59,6 +59,17 @@
                 <label for='mdp' >Mot de passe : </label>
                 <input type='password' id='mdp'  name='mdp' class='champLarge' />
             </p>
+            </p>
+                <label for='suivi' >Suivi par : </label>
+                <select id='suivi'  name='suivi'>
+<?php foreach($admins as $admin) { ?>
+                    <option value=<?= $admin['id'] ?>>
+                        <?= $admin['nom'] ?> <?= $admin['prenom'] ?>
+                    </option>
+<?php } ?>
+
+                </select>
+            </p>
 
 
         </form>

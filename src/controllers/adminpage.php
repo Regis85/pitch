@@ -333,14 +333,18 @@ class Adminpage
             $donnees = array($province);
         } elseif  ($ligue)  {
             // On a une ligue on s'en sert pour récupérer les pitchs
-            $sql = "SELECT * FROM pitch
-                    WHERE departement IN
-                        (SELECT code FROM departements WHERE id_province IN
-                            (SELECT id FROM provinces WHERE id_ligue = ?)
-                        ); ";
+            $sql = "SELECT p.*, a.administrateur FROM pitch as p
+                    LEFT JOIN (SELECT id as idAdmin, identifiant as administrateur FROM admin) as a
+                        ON p.suivi = a.idAdmin
+                        WHERE p.departement IN
+                            (SELECT code FROM departements WHERE id_province IN
+                        (SELECT id FROM provinces WHERE id_ligue = ?)
+                    );";
             $donnees = array($ligue);
         } else {
-            $sql = "SELECT * FROM `pitch`; ";
+            $sql = "SELECT p.*, a.administrateur FROM pitch as p
+                    LEFT JOIN (SELECT id as idAdmin, identifiant as administrateur FROM admin) as a
+                    ON p.suivi = a.idAdmin";
             $donnees = array();
         }
 
@@ -373,6 +377,7 @@ class Adminpage
             $_SESSION['newPitch']['web'] = $_POST['web'];
             $mdp = $this->creeMdp($code, $_POST['mdp']);
             $_SESSION['newPitch']['mdp'] = $mdp;
+            $_SESSION['newPitch']['suivi'] = $_POST['suivi'];
 
             $_SESSION['lastSelection']['departement'] = $_SESSION['newPitch']['departement'];
 

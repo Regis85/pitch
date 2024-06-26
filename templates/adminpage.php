@@ -97,6 +97,7 @@
                         <th>gps Lat/long</th>
                         <th>Site Web</th>
                         <th>Département</th>
+                        <th>Suivi</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -113,6 +114,7 @@
                             </a>
                         </td>
                         <td><?= $pitch['departement'] ?></td>
+                        <td><?= $pitch['administrateur'] ?></td>
                         <td>
                             <input type='radio' name='id_pitch' value="<?= $pitch['id'] ?>" />
                         </td>

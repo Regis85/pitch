@@ -14,8 +14,10 @@ class Creepage
 /*
 echo "<br>GET<br>";
 print_r($_GET);
+* */
 echo "<br>POST<br>";
 print_r($_POST);
+/*
 echo "<br> SESSION <br>";
 print_r($_SESSION);
 * */
@@ -27,6 +29,7 @@ print_r($_SESSION);
             $_SESSION = array();
             die;
         } else {
+            $admins = $this->connexion->getAdmin();
             if ($_POST['cree'] == 'nouveau') {
                 //----- Créer un nouveau pitch -----
                 // Récupérer département dans $_SESSION

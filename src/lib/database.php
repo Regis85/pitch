@@ -324,6 +324,21 @@ class DatabaseConnection
         }
     }
 
+    public function getAdmin(): array
+    {
+        try {
+            $sql = "SELECT * FROM admin";
+            $donnees = [];
+            $sth = $this->getConnection()->prepare($sql);
+            $sth->execute($donnees);
+            $results = $sth->fetchall();
+            return $results;
+        } catch(PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return 0;
+        }
+    }
+
 
 }
 
